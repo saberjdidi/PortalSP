@@ -1,0 +1,194 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:PopupPage
+    x:Class="XamarinApplication.Views.ConfigurationGlobaleConvention"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:animations="clr-namespace:Rg.Plugins.Popup.Animations;assembly=Rg.Plugins.Popup"
+    xmlns:custom="clr-namespace:XamarinApplication"
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:i18n="clr-namespace:XamarinApplication.Helpers"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+    xmlns:sync="clr-namespace:Syncfusion.ListView.XForms;assembly=Syncfusion.SfListView.XForms"
+    mc:Ignorable="d">
+    <pages:PopupPage.Animation>
+        <animations:ScaleAnimation
+            DurationIn="400"
+            DurationOut="300"
+            EasingIn="SinOut"
+            EasingOut="SinIn"
+            HasBackgroundAnimation="True"
+            PositionIn="Center"
+            PositionOut="Center"
+            ScaleIn="1.2"
+            ScaleOut="0.8" />
+    </pages:PopupPage.Animation>
+    <StackLayout
+        Margin="5,50,5,50"
+        HorizontalOptions="Center"
+        VerticalOptions="Center">
+        <Frame
+            Margin="1"
+            BackgroundColor="#FDFFFC"
+            BorderColor="#FDFFFC"
+            HasShadow="true">
+            <StackLayout>
+                <StackLayout HorizontalOptions="End" VerticalOptions="End">
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="Close_Configuration" />
+                    </StackLayout.GestureRecognizers>
+                    <Image
+                        HeightRequest="45"
+                        Source="close.png"
+                        WidthRequest="45" />
+                </StackLayout>
+                <StackLayout Orientation="Horizontal">
+                    <Label
+                        Margin="5,-20,5,1"
+                        FontAttributes="Bold"
+                        FontSize="Medium"
+                        HorizontalOptions="Center"
+                        Text="{i18n:Translate GlobalConfiguration}" />
+                    <Image
+                        Margin="15,0,0,0"
+                        HeightRequest="40"
+                        Source="plus.png"
+                        WidthRequest="40">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="Add_Configuration_Global" />
+                        </Image.GestureRecognizers>
+                    </Image>
+                </StackLayout>
+                <Label
+                    x:Name="label"
+                    Margin="2,20,2,3"
+                    FontSize="26"
+                    HorizontalOptions="FillAndExpand"
+                    HorizontalTextAlignment="Center"
+                    IsVisible="{Binding IsVisible}"
+                    Text="{i18n:Translate NoResult}"
+                    VerticalOptions="FillAndExpand"
+                    VerticalTextAlignment="Center" />
+                <!-- <ListView
+                    HasUnevenRows="true"
+                    IsPullToRefreshEnabled="true"
+                    IsRefreshing="{Binding IsRefreshing, Mode=TwoWay}"
+                    ItemsSource="{Binding ConfigConventions}"
+                    RefreshCommand="{Binding RefreshCommand}"
+                    SeparatorColor="Gray"
+                    SeparatorVisibility="Default">-->
+
+                <RefreshView Command="{Binding RefreshCommand}" IsRefreshing="{Binding IsRefreshing}">
+                    <sync:SfListView
+                        AllowSwiping="True"
+                        ItemSize="90"
+                        ItemsSource="{Binding ConfigConventions}"
+                        SelectionMode="Single">
+                        <sync:SfListView.LeftSwipeTemplate>
+                            <DataTemplate x:Name="LeftSwipeTemplate">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid
+                                        Grid.Column="0"
+                                        BackgroundColor="#009EDA"
+                                        HorizontalOptions="Fill"
+                                        VerticalOptions="Fill">
+                                        <Grid HorizontalOptions="Center" VerticalOptions="Center">
+                                            <Image
+                                                Grid.Row="0"
+                                                Grid.Column="0"
+                                                HeightRequest="35"
+                                                Source="edit.png"
+                                                WidthRequest="35">
+                                                <Image.GestureRecognizers>
+                                                    <TapGestureRecognizer CommandParameter="{Binding id}" Tapped="Update_Convention_Global" />
+                                                </Image.GestureRecognizers>
+                                            </Image>
+                                        </Grid>
+                                    </Grid>
+                                    <Grid
+                                        Grid.Column="1"
+                                        BackgroundColor="#DC595F"
+                                        HorizontalOptions="Fill"
+                                        VerticalOptions="Fill">
+                                        <Grid HorizontalOptions="Center" VerticalOptions="Center">
+                                            <Image
+                                                Grid.Row="0"
+                                                Grid.Column="0"
+                                                HeightRequest="35"
+                                                Source="trash.png"
+                                                WidthRequest="35">
+                                                <Image.GestureRecognizers>
+                                                    <TapGestureRecognizer Command="{Binding DeleteCommand}" />
+                                                </Image.GestureRecognizers>
+                                            </Image>
+                                        </Grid>
+                                    </Grid>
+                                </Grid>
+                            </DataTemplate>
+                        </sync:SfListView.LeftSwipeTemplate>
+                        <sync:SfListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <custom:RoundedCornerView
+                                        Margin="3"
+                                        BorderColor="#E0E2DB"
+                                        BorderWidth="1"
+                                        RoundedCornerRadius="3">
+                                        <Grid BackgroundColor="#E0E2DB">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <StackLayout
+                                                Margin="5"
+                                                HeightRequest="100"
+                                                VerticalOptions="Center">
+                                                <StackLayout Orientation="Horizontal">
+                                                    <StackLayout Padding="4,0,0,0" Orientation="Vertical">
+                                                        <Label
+                                                            FontAttributes="Bold"
+                                                            FontSize="Medium"
+                                                            Text="{Binding code}"
+                                                            TextColor="#1982C4" />
+                                                        <Label
+                                                            FontAttributes="Bold"
+                                                            FontSize="Small"
+                                                            Text="{Binding description}"
+                                                            TextColor="#1d3557" />
+                                                    </StackLayout>
+                                                    <!-- <StackLayout Orientation="Vertical">
+                                                    <Image
+                                                        HeightRequest="25"
+                                                        Source="trash.png"
+                                                        WidthRequest="25">
+                                                        <Image.GestureRecognizers>
+                                                            <TapGestureRecognizer Command="{Binding DeleteCommand}" />
+                                                        </Image.GestureRecognizers>
+                                                    </Image>
+                                                    <Image
+                                                        HeightRequest="25"
+                                                        Source="edit.png"
+                                                        WidthRequest="25">
+                                                        <Image.GestureRecognizers>
+                                                            <TapGestureRecognizer CommandParameter="{Binding id}" Tapped="Update_Convention_Global" />
+                                                        </Image.GestureRecognizers>
+                                                    </Image>
+                                                </StackLayout>-->
+                                                </StackLayout>
+                                            </StackLayout>
+                                        </Grid>
+                                    </custom:RoundedCornerView>
+                                </ViewCell>
+                            </DataTemplate>
+                        </sync:SfListView.ItemTemplate>
+                    </sync:SfListView>
+                </RefreshView>
+            </StackLayout>
+        </Frame>
+    </StackLayout>
+</pages:PopupPage>

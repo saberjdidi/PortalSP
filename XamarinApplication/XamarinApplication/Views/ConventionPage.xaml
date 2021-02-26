@@ -1,0 +1,446 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="XamarinApplication.Views.ConventionPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:custom="clr-namespace:XamarinApplication"
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:i18n="clr-namespace:XamarinApplication.Helpers"
+    xmlns:local="clr-namespace:XamarinApplication.Converters"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:pv="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+    xmlns:sync="clr-namespace:Syncfusion.ListView.XForms;assembly=Syncfusion.SfListView.XForms"
+    Title="{i18n:Translate Convention}"
+    mc:Ignorable="d">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:BackgroundColorConventionConverter x:Key="BackgroundColorConverter" />
+            <local:ConventionStatusConverter x:Key="ConventionStatusConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <!-- <ContentPage.ToolbarItems>
+        <ToolbarItem
+            Command="{Binding OpenSearchBar}"
+            IconImageSource="ic_search_white_24dp"
+            Text="{Binding ShowHide}" />
+        <ToolbarItem Clicked="configuration_global_convention" IconImageSource="settings_white" />
+        <ToolbarItem Command="{Binding DownloadExcel}" IconImageSource="excel" />
+    </ContentPage.ToolbarItems>-->
+    <Grid
+        BackgroundColor="LightGray"
+        HorizontalOptions="FillAndExpand"
+        RowSpacing="0"
+        VerticalOptions="FillAndExpand">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <!-- <Grid Padding="30,10,30,10">
+            <Image
+                HeightRequest="25"
+                HorizontalOptions="Start"
+                Source="hamburgerMenu" />
+            <Image
+                HeightRequest="25"
+                HorizontalOptions="End"
+                Source="ic_search_white_24dp">
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding OpenSearchBar}" />
+                </Image.GestureRecognizers>
+            </Image>
+        </Grid>-->
+        <custom:RoundedCornerView
+            Grid.Row="1"
+            Margin="15,2,15,1"
+            BorderWidth="1"
+            RoundedCornerRadius="25">
+            <SearchBar
+                BackgroundColor="White"
+                HeightRequest="46"
+                IsVisible="{Binding ShowHide}"
+                Placeholder="{i18n:Translate Search}"
+                SearchCommand="{Binding SearchCommand}"
+                Text="{Binding Filter, Mode=TwoWay}" />
+        </custom:RoundedCornerView>
+        <Label
+            Grid.Row="2"
+            FontSize="24"
+            HorizontalOptions="FillAndExpand"
+            HorizontalTextAlignment="Center"
+            IsVisible="{Binding IsVisibleStatus}"
+            Text="{i18n:Translate NoResult}"
+            TextColor="Black"
+            VerticalOptions="FillAndExpand"
+            VerticalTextAlignment="Center" />
+        <RefreshView
+            x:Name="contentPage"
+            Grid.Row="2"
+            Command="{Binding RefreshCommand}"
+            InputTransparent="false"
+            IsRefreshing="{Binding IsRefreshing}">
+            <!-- <CollectionView
+                Grid.Row="2"
+                Margin="10,3,10,10"
+                HorizontalOptions="FillAndExpand"
+                ItemsSource="{Binding Conventions}"
+                SelectionMode="None"
+                VerticalOptions="FillAndExpand">
+                <CollectionView.Header>
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="18"
+                        Text="Convention"
+                        TextColor="Black" />
+                </CollectionView.Header>
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout ItemSpacing="20" Orientation="Vertical" />
+                </CollectionView.ItemsLayout>-->
+            <sync:SfListView
+                Grid.Row="2"
+                Margin="10,3,10,10"
+                AllowSwiping="True"
+                ItemSize="130"
+                ItemsSource="{Binding Conventions}"
+                SelectionMode="None">
+                <!-- <sync:SfListView.LayoutManager>
+                    <sync:LinearLayout />
+                </sync:SfListView.LayoutManager>-->
+                <sync:SfListView.LeftSwipeTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="50" />
+                                <ColumnDefinition Width="50" />
+                            </Grid.ColumnDefinitions>
+                            <Grid
+                                Grid.Column="0"
+                                BackgroundColor="#009EDA"
+                                HorizontalOptions="Fill"
+                                VerticalOptions="Fill">
+                                <Grid HorizontalOptions="Center" VerticalOptions="Center">
+                                    <Image
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        HeightRequest="35"
+                                        Source="edit.png"
+                                        WidthRequest="35">
+                                        <Image.GestureRecognizers>
+                                            <TapGestureRecognizer CommandParameter="{Binding id}" Tapped="Update_Convention" />
+                                        </Image.GestureRecognizers>
+                                    </Image>
+                                </Grid>
+                            </Grid>
+                            <Grid
+                                x:Name="gridDeactivate"
+                                Grid.Column="1"
+                                BackgroundColor="#DC595F"
+                                HorizontalOptions="Fill"
+                                VerticalOptions="Fill">
+                                <Grid HorizontalOptions="Center" VerticalOptions="Center">
+                                    <Image
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        HeightRequest="35"
+                                        IsVisible="{Binding DeleteConvention}"
+                                        Source="trash.png"
+                                        WidthRequest="35">
+                                        <Image.GestureRecognizers>
+                                            <!-- <TapGestureRecognizer Command="{Binding DeleteCommand}" />-->
+                                            <TapGestureRecognizer CommandParameter="{Binding id}" Tapped="Deactivate_Convention" />
+                                        </Image.GestureRecognizers>
+                                    </Image>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                    </DataTemplate>
+                </sync:SfListView.LeftSwipeTemplate>
+                <sync:SfListView.RightSwipeTemplate>
+                    <DataTemplate>
+                        <Grid
+                            BackgroundColor="#EDE7D9"
+                            HorizontalOptions="Fill"
+                            VerticalOptions="Fill"
+                            WidthRequest="150">
+                            <Grid HorizontalOptions="Center" VerticalOptions="Center">
+                                <Image
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    HeightRequest="50"
+                                    Source="setting.png"
+                                    WidthRequest="50">
+                                    <Image.GestureRecognizers>
+                                        <TapGestureRecognizer CommandParameter="{Binding id}" Tapped="Configuration_Convention" />
+                                    </Image.GestureRecognizers>
+                                </Image>
+                            </Grid>
+                        </Grid>
+                    </DataTemplate>
+                </sync:SfListView.RightSwipeTemplate>
+                <sync:SfListView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame
+                            Margin="0,0,0,10"
+                            Padding="0"
+                            BackgroundColor="Transparent"
+                            HasShadow="True"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="StartAndExpand">
+                            <Grid HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand">
+                                <Expander
+                                    x:Name="MainExpander"
+                                    CollapseAnimationLength="500"
+                                    Tapped="MainExpander_Tapped">
+                                    <Expander.Header>
+                                        <Grid BackgroundColor="White" HorizontalOptions="FillAndExpand">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="3*" />
+                                                <ColumnDefinition Width="1*" />
+                                            </Grid.ColumnDefinitions>
+                                            <BoxView BackgroundColor="{Binding status.name, Converter={StaticResource BackgroundColorConverter}}" Opacity="0.2" />
+                                            <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                                                <Label
+                                                    FontAttributes="Bold"
+                                                    FontSize="13"
+                                                    HorizontalOptions="Center"
+                                                    Text="{Binding startValidation, StringFormat='{0:ddd}'}"
+                                                    TextColor="#6670CC" />
+                                                <Label
+                                                    Margin="0,-10,0,0"
+                                                    FontAttributes="Bold"
+                                                    FontSize="26"
+                                                    HorizontalOptions="Center"
+                                                    Text="{Binding startValidation, StringFormat='{0:dd}'}"
+                                                    TextColor="#FF5151" />
+                                            </StackLayout>
+                                            <StackLayout
+                                                Grid.Column="1"
+                                                Margin="20"
+                                                HorizontalOptions="Start"
+                                                VerticalOptions="Center">
+                                                <Label
+                                                    FontSize="15"
+                                                    Text="{Binding socialReason}"
+                                                    TextColor="Black" />
+                                                <Label
+                                                    Margin="0,-5,0,0"
+                                                    FontSize="12"
+                                                    Opacity="0.85"
+                                                    Text="{Binding tva.code}"
+                                                    TextColor="Black" />
+                                                <Label
+                                                    Margin="0,-5,0,0"
+                                                    FontSize="12"
+                                                    Opacity="0.5"
+                                                    Text="{Binding startValidation}"
+                                                    TextColor="Black" />
+                                            </StackLayout>
+                                            <!--<StackLayout
+                                                Grid.Column="2"
+                                                Orientation="Vertical"
+                                                VerticalOptions="Center">
+                                                <Image
+                                                    HeightRequest="35"
+                                                    Source="setting.png"
+                                                    WidthRequest="35">
+                                                    <Image.GestureRecognizers>
+                                                        <TapGestureRecognizer CommandParameter="{Binding id}" Tapped="Configuration_Convention" />
+                                                    </Image.GestureRecognizers>
+                                                </Image>
+                                                <Image
+                                                    HeightRequest="25"
+                                                    Source="edit.png"
+                                                    WidthRequest="25">
+                                                    <Image.GestureRecognizers>
+                                                        <TapGestureRecognizer CommandParameter="{Binding id}" Tapped="Update_Convention" />
+                                                    </Image.GestureRecognizers>
+                                                </Image>
+                                                <Image
+                                                    HeightRequest="25"
+                                                    IsVisible="{Binding DeleteConvention}"
+                                                    Source="trash.png"
+                                                    WidthRequest="25">
+                                                    <Image.GestureRecognizers>
+                                                        <TapGestureRecognizer Command="{Binding DeleteCommand}" />
+                                                    </Image.GestureRecognizers>
+                                                </Image>
+                                            </StackLayout>-->
+                                        </Grid>
+                                    </Expander.Header>
+                                    <Grid
+                                        HeightRequest="240"
+                                        HorizontalOptions="FillAndExpand"
+                                        RowSpacing="0">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="2*" />
+                                            <RowDefinition Height="1.5*" />
+                                        </Grid.RowDefinitions>
+                                        <Grid
+                                            x:Name="DetailsView"
+                                            Padding="20"
+                                            BackgroundColor="#B3DEC1"
+                                            IsVisible="False">
+                                            <StackLayout Orientation="Vertical">
+                                                <StackLayout Orientation="Horizontal">
+                                                    <Label
+                                                        FontAttributes="Bold"
+                                                        FontSize="12"
+                                                        Opacity="0.85"
+                                                        Text="Status : "
+                                                        TextColor="Black" />
+                                                    <Label
+                                                        FontSize="12"
+                                                        Opacity="0.85"
+                                                        Text="{Binding status.name, Converter={StaticResource ConventionStatusConverter}}"
+                                                        TextColor="Black" />
+                                                </StackLayout>
+                                                <!-- <StackLayout Orientation="Horizontal">
+                                                    <Label
+                                                        FontAttributes="Bold"
+                                                        FontSize="12"
+                                                        Opacity="0.85"
+                                                        Text="Validation : "
+                                                        TextColor="Black" />
+                                                    <Label
+                                                        FontSize="12"
+                                                        Opacity="0.85"
+                                                        Text="{Binding startValidation}"
+                                                        TextColor="Black" />
+                                                    <Label
+                                                        FontSize="12"
+                                                        Opacity="0.85"
+                                                        Text="{Binding endValidation}"
+                                                        TextColor="Black" />
+                                                </StackLayout>-->
+                                            </StackLayout>
+                                        </Grid>
+                                    </Grid>
+                                </Expander>
+                            </Grid>
+                        </Frame>
+                    </DataTemplate>
+                </sync:SfListView.ItemTemplate>
+            </sync:SfListView>
+        </RefreshView>
+        <!--  menu items
+        <StackLayout
+            x:Name="menuitems"
+            Grid.Row="2"
+            HorizontalOptions="End"
+            InputTransparent="false"
+            IsVisible="true"
+            VerticalOptions="End">
+            <StackLayout.Margin>
+                <OnPlatform x:TypeArguments="Thickness">
+                    <On Platform="iOS">0,20,20,80</On>
+                    <On Platform="Android">0,20,20,50</On>
+                </OnPlatform>
+            </StackLayout.Margin>
+            <Frame
+                Margin="0"
+                Padding="0"
+                BackgroundColor="Transparent"
+                CornerRadius="20"
+                HasShadow="False"
+                HorizontalOptions="End"
+                VerticalOptions="Start"
+                WidthRequest="250">
+                <StackLayout>
+                    <Frame
+                        Margin="0"
+                        Padding="0"
+                        BackgroundColor="#E0E2DB"
+                        HeightRequest="50"
+                        HorizontalOptions="End"
+                        WidthRequest="50">
+                        <Frame.CornerRadius>
+                            <OnPlatform x:TypeArguments="x:Single">
+                                <On Platform="iOS" Value="30" />
+                                <On Platform="Android" Value="40" />
+                            </OnPlatform>
+                        </Frame.CornerRadius>
+                        <Image
+                            x:Name="menu"
+                            Margin="0,0,5,0"
+                            HeightRequest="50"
+                            HorizontalOptions="End"
+                            Source="add_black.png"
+                            WidthRequest=" 40">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="Add_Convention" />
+                            </Image.GestureRecognizers>
+                        </Image>
+                    </Frame>
+                </StackLayout>
+            </Frame>
+        </StackLayout>-->
+
+        <!--  menu items  -->
+        <pv:PancakeView
+            Grid.Row="2"
+            Margin="30"
+            Padding="15"
+            CornerRadius="40"
+            HorizontalOptions="End"
+            VerticalOptions="End">
+            <pv:PancakeView.BackgroundGradientStops>
+                <pv:GradientStopCollection>
+                    <pv:GradientStop Offset="0" Color="LightBlue" />
+                    <pv:GradientStop Offset="1" Color="SlateBlue" />
+                </pv:GradientStopCollection>
+            </pv:PancakeView.BackgroundGradientStops>
+            <Expander
+                HorizontalOptions="Start"
+                Rotation="180"
+                VerticalOptions="End">
+                <Expander.Header>
+                    <Image
+                        HeightRequest="30"
+                        Rotation="180"
+                        Source="add_white.png"
+                        WidthRequest="30">
+                        <Image.Triggers>
+                            <DataTrigger
+                                Binding="{Binding Source={RelativeSource AncestorType={x:Type Expander}}, Path=IsExpanded}"
+                                TargetType="Image"
+                                Value="True">
+                                <Setter Property="Source" Value="closee.png" />
+                            </DataTrigger>
+                        </Image.Triggers>
+                    </Image>
+                </Expander.Header>
+                <StackLayout Margin="0,20" Spacing="30">
+                    <ImageButton
+                        BackgroundColor="Transparent"
+                        Command="{Binding DownloadExcel}"
+                        HeightRequest="30"
+                        Rotation="180"
+                        Source="excel.png"
+                        WidthRequest="30" />
+                    <ImageButton
+                        BackgroundColor="Transparent"
+                        Clicked="configuration_global_convention"
+                        HeightRequest="30"
+                        Rotation="180"
+                        Source="settings_white.png"
+                        WidthRequest="30" />
+                    <ImageButton
+                        BackgroundColor="Transparent"
+                        Clicked="Add_Convention"
+                        HeightRequest="30"
+                        Rotation="180"
+                        Source="add_white.png"
+                        WidthRequest="30" />
+                    <ImageButton
+                        BackgroundColor="Transparent"
+                        Command="{Binding OpenSearchBar}"
+                        HeightRequest="30"
+                        Rotation="180"
+                        Source="ic_search_white_24dp.png"
+                        WidthRequest="30" />
+                </StackLayout>
+            </Expander>
+        </pv:PancakeView>
+    </Grid>
+</ContentPage>

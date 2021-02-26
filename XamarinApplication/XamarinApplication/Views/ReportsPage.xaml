@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="XamarinApplication.Views.ReportsPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:custom="clr-namespace:XamarinApplication;assembly=XamarinApplication"
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:i18n="clr-namespace:XamarinApplication.Helpers"
+    xmlns:local="clr-namespace:XamarinApplication.Converters;assembly=XamarinApplication"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModels="clr-namespace:XamarinApplication.ViewModels"
+    Title="{i18n:Translate Report}"
+    mc:Ignorable="d">
+    <ContentPage.BindingContext>
+        <viewModels:ReportsViewModel />
+    </ContentPage.BindingContext>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+            Command="{Binding OpenSearchBar}"
+            IconImageSource="ic_search_white_24dp"
+            Text="{Binding ShowHide}" />
+    </ContentPage.ToolbarItems>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:VisibilityConverter x:Key="visibilityConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <StackLayout Padding="5">
+            <custom:RoundedCornerView BorderWidth="1" RoundedCornerRadius="25">
+                <SearchBar
+                    BackgroundColor="#A0CCDA"
+                    HeightRequest="46"
+                    IsVisible="{Binding ShowHide}"
+                    Placeholder="{i18n:Translate Search}"
+                    SearchCommand="{Binding SearchCommand}"
+                    Text="{Binding Filter, Mode=TwoWay}" />
+            </custom:RoundedCornerView>
+            <!--<Button
+                x:Name="ItemSource"
+                Grid.Row="0"
+                Command="{Binding ChangeItemsSource}"
+                HorizontalOptions="CenterAndExpand"
+                Text="Change ItemSource"
+                VerticalOptions="CenterAndExpand" />-->
+            <Label
+                x:Name="label"
+                FontSize="Default"
+                HorizontalOptions="FillAndExpand"
+                HorizontalTextAlignment="Center"
+                IsVisible="{Binding IsVisible}"
+                Text="{i18n:Translate NoResult}"
+                VerticalOptions="FillAndExpand"
+                VerticalTextAlignment="Center" />
+            <ListView
+                Grid.Row="0"
+                HasUnevenRows="true"
+                IsPullToRefreshEnabled="true"
+                IsRefreshing="{Binding IsRefreshing, Mode=TwoWay}"
+                ItemsSource="{Binding Reports}"
+                RefreshCommand="{Binding RefreshCommand}"
+                SeparatorVisibility="None">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <custom:RoundedCornerView
+                                Margin="3"
+                                BorderColor="#E0E2DB"
+                                BorderWidth="1"
+                                RoundedCornerRadius="20">
+                                <Grid BackgroundColor="#E0E2DB">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <StackLayout
+                                        Grid.Column="1"
+                                        Margin="5"
+                                        VerticalOptions="Center">
+                                        <Label
+                                            FontAttributes="Bold"
+                                            FontSize="19"
+                                            Text="{Binding name}"
+                                            TextColor="#05204A" />
+                                        <Label
+                                            FontAttributes="Bold"
+                                            FontSize="Small"
+                                            Text="{Binding description}"
+                                            TextColor="#3F88C5" />
+                                    </StackLayout>
+                                </Grid>
+                            </custom:RoundedCornerView>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

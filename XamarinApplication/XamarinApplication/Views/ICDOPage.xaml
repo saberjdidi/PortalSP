@@ -1,0 +1,163 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="XamarinApplication.Views.ICDOPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:custom="clr-namespace:XamarinApplication"
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:i18n="clr-namespace:XamarinApplication.Helpers"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:pv="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+    Title="TOPOGRFIC"
+    mc:Ignorable="d">
+    <!-- <ContentPage.ToolbarItems>
+        <ToolbarItem
+            Command="{Binding OpenSearchBar}"
+            IconImageSource="ic_search_white_24dp"
+            Text="{Binding ShowHide}" />
+        <ToolbarItem Clicked="New_Icdo" IconImageSource="add" />
+    </ContentPage.ToolbarItems>-->
+    <Grid
+        BackgroundColor="White"
+        HorizontalOptions="FillAndExpand"
+        RowSpacing="0"
+        VerticalOptions="FillAndExpand">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <custom:RoundedCornerView
+            Grid.Row="1"
+            Margin="10,1,10,1"
+            BorderWidth="1"
+            RoundedCornerRadius="25">
+            <SearchBar
+                BackgroundColor="#A0CCDA"
+                HeightRequest="50"
+                IsVisible="{Binding ShowHide}"
+                Placeholder="{i18n:Translate Search}"
+                SearchCommand="{Binding SearchCommand}"
+                Text="{Binding Filter, Mode=TwoWay}" />
+        </custom:RoundedCornerView>
+        <Label
+            Grid.Row="2"
+            FontSize="24"
+            HorizontalOptions="FillAndExpand"
+            HorizontalTextAlignment="Center"
+            IsVisible="{Binding IsVisibleStatus}"
+            Text="{i18n:Translate NoResult}"
+            TextColor="Black"
+            VerticalOptions="FillAndExpand"
+            VerticalTextAlignment="Center" />
+        <ListView
+            Grid.Row="2"
+            HasUnevenRows="true"
+            IsPullToRefreshEnabled="true"
+            IsRefreshing="{Binding IsRefreshing, Mode=TwoWay}"
+            ItemsSource="{Binding ICDO}"
+            RefreshCommand="{Binding RefreshCommand}"
+            SelectionMode="None"
+            SeparatorVisibility="None">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <ViewCell.ContextActions>
+                            <MenuItem
+                                Clicked="Update_Icdo"
+                                CommandParameter="{Binding .}"
+                                IconImageSource="edit.png"
+                                Text="{i18n:Translate Update}" />
+                            <MenuItem
+                                Command="{Binding DeleteCommand}"
+                                IconImageSource="trash.png"
+                                IsDestructive="true"
+                                Text="{i18n:Translate Delete}" />
+                        </ViewCell.ContextActions>
+                        <custom:RoundedCornerView
+                            Margin="3"
+                            BorderColor="#E0E2DB"
+                            BorderWidth="1"
+                            RoundedCornerRadius="20">
+                            <Grid BackgroundColor="#E0E2DB">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <StackLayout Margin="5" VerticalOptions="Center">
+                                    <StackLayout Orientation="Horizontal">
+                                        <StackLayout Padding="4,0,0,0" Orientation="Vertical">
+                                            <Label
+                                                FontAttributes="Bold"
+                                                FontSize="Medium"
+                                                Text="{Binding code}"
+                                                TextColor="#1982C4" />
+                                            <Label
+                                                FontAttributes="Bold"
+                                                FontSize="Small"
+                                                Text="{Binding description}"
+                                                TextColor="#1d3557" />
+                                        </StackLayout>
+                                    </StackLayout>
+                                </StackLayout>
+                            </Grid>
+                        </custom:RoundedCornerView>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <!--  menu items  -->
+        <pv:PancakeView
+            Grid.Row="2"
+            Margin="30"
+            Padding="15"
+            CornerRadius="40"
+            HorizontalOptions="End"
+            VerticalOptions="End">
+            <pv:PancakeView.BackgroundGradientStops>
+                <pv:GradientStopCollection>
+                    <pv:GradientStop Offset="0" Color="LightBlue" />
+                    <pv:GradientStop Offset="1" Color="SlateBlue" />
+                </pv:GradientStopCollection>
+            </pv:PancakeView.BackgroundGradientStops>
+            <Expander
+                HorizontalOptions="Start"
+                Rotation="180"
+                VerticalOptions="End">
+                <Expander.Header>
+                    <Image
+                        HeightRequest="30"
+                        Rotation="180"
+                        Source="add_white.png"
+                        WidthRequest="30">
+                        <Image.Triggers>
+                            <DataTrigger
+                                Binding="{Binding Source={RelativeSource AncestorType={x:Type Expander}}, Path=IsExpanded}"
+                                TargetType="Image"
+                                Value="True">
+                                <Setter Property="Source" Value="closee.png" />
+                            </DataTrigger>
+                        </Image.Triggers>
+                    </Image>
+                </Expander.Header>
+                <StackLayout Margin="0,20" Spacing="30">
+                    <ImageButton
+                        BackgroundColor="Transparent"
+                        Clicked="New_Icdo"
+                        HeightRequest="30"
+                        Rotation="180"
+                        Source="add_white.png"
+                        WidthRequest="30" />
+                    <ImageButton
+                        BackgroundColor="Transparent"
+                        Command="{Binding OpenSearchBar}"
+                        HeightRequest="30"
+                        Rotation="180"
+                        Source="ic_search_white_24dp.png"
+                        WidthRequest="30" />
+                </StackLayout>
+            </Expander>
+        </pv:PancakeView>
+    </Grid>
+</ContentPage>

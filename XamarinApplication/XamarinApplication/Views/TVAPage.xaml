@@ -1,0 +1,161 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="XamarinApplication.Views.TVAPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:custom="clr-namespace:XamarinApplication"
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:i18n="clr-namespace:XamarinApplication.Helpers"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="TVA"
+    mc:Ignorable="d">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+            Command="{Binding OpenSearchBar}"
+            IconImageSource="ic_search_white_24dp"
+            Text="{Binding ShowHide}" />
+    </ContentPage.ToolbarItems>
+    <Grid
+        BackgroundColor="LightGray"
+        HorizontalOptions="FillAndExpand"
+        RowSpacing="0"
+        VerticalOptions="FillAndExpand">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <StackLayout Grid.Row="1" Padding="5">
+            <custom:RoundedCornerView BorderWidth="1" RoundedCornerRadius="25">
+                <SearchBar
+                    BackgroundColor="#A0CCDA"
+                    HeightRequest="46"
+                    IsVisible="{Binding ShowHide}"
+                    Placeholder="{i18n:Translate Search}"
+                    SearchCommand="{Binding SearchCommand}"
+                    Text="{Binding Filter, Mode=TwoWay}" />
+            </custom:RoundedCornerView>
+            <Label
+                FontSize="24"
+                HorizontalOptions="FillAndExpand"
+                HorizontalTextAlignment="Center"
+                IsVisible="{Binding IsVisibleStatus}"
+                Text="{i18n:Translate NoResult}"
+                TextColor="Black"
+                VerticalOptions="FillAndExpand"
+                VerticalTextAlignment="Center" />
+            <ListView
+                x:Name="listViewTva"
+                HasUnevenRows="true"
+                IsPullToRefreshEnabled="true"
+                IsRefreshing="{Binding IsRefreshing, Mode=TwoWay}"
+                ItemsSource="{Binding TVA}"
+                RefreshCommand="{Binding RefreshCommand}"
+                SeparatorVisibility="None">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.ContextActions>
+                                <MenuItem
+                                    Clicked="Update_TVA"
+                                    CommandParameter="{Binding .}"
+                                    IconImageSource="edit.png"
+                                    Text="Edit" />
+                                <MenuItem
+                                    Command="{Binding DeleteCommand}"
+                                    IconImageSource="trash.png"
+                                    IsDestructive="true"
+                                    Text="Delete" />
+                            </ViewCell.ContextActions>
+                            <custom:RoundedCornerView
+                                Margin="3"
+                                BorderColor="#E0E2DB"
+                                BorderWidth="1"
+                                RoundedCornerRadius="20">
+                                <Grid BackgroundColor="#E0E2DB">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <StackLayout Margin="5" VerticalOptions="Center">
+                                        <StackLayout Orientation="Horizontal">
+                                            <StackLayout Padding="4,0,0,0" Orientation="Vertical">
+                                                <Label
+                                                    FontAttributes="Bold"
+                                                    FontSize="Medium"
+                                                    Text="{Binding code}"
+                                                    TextColor="#1982C4" />
+                                                <Label
+                                                    FontAttributes="Bold"
+                                                    FontSize="Small"
+                                                    Text="{Binding description}"
+                                                    TextColor="#1d3557" />
+                                                <CheckBox
+                                                    CheckedChanged="CheckBox_CheckedChanged"
+                                                    IsChecked="{Binding isDefault, Mode=TwoWay}"
+                                                    Color="#28BAAE" />
+                                            </StackLayout>
+                                        </StackLayout>
+                                    </StackLayout>
+                                </Grid>
+                            </custom:RoundedCornerView>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+        <!--  menu items  -->
+        <StackLayout
+            x:Name="menuitems"
+            Grid.Row="1"
+            HorizontalOptions="End"
+            InputTransparent="false"
+            IsVisible="true"
+            VerticalOptions="End">
+            <StackLayout.Margin>
+                <OnPlatform x:TypeArguments="Thickness">
+                    <On Platform="iOS">0,20,20,80</On>
+                    <On Platform="Android">0,20,20,50</On>
+                </OnPlatform>
+            </StackLayout.Margin>
+            <!--  menu image  -->
+            <Frame
+                Margin="0"
+                Padding="0"
+                BackgroundColor="Transparent"
+                CornerRadius="20"
+                HasShadow="False"
+                HorizontalOptions="End"
+                VerticalOptions="Start"
+                WidthRequest="250">
+                <StackLayout>
+                    <Frame
+                        Margin="0"
+                        Padding="0"
+                        BackgroundColor="White"
+                        HeightRequest="50"
+                        HorizontalOptions="End"
+                        WidthRequest="50">
+                        <Frame.CornerRadius>
+                            <OnPlatform x:TypeArguments="x:Single">
+                                <On Platform="iOS" Value="30" />
+                                <On Platform="Android" Value="40" />
+                            </OnPlatform>
+                        </Frame.CornerRadius>
+                        <Image
+                            x:Name="menu"
+                            Margin="0,0,5,0"
+                            HeightRequest="50"
+                            HorizontalOptions="End"
+                            Source="add_black.png"
+                            WidthRequest=" 40">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="New_TVA" />
+                            </Image.GestureRecognizers>
+                        </Image>
+                    </Frame>
+                </StackLayout>
+            </Frame>
+        </StackLayout>
+    </Grid>
+</ContentPage>

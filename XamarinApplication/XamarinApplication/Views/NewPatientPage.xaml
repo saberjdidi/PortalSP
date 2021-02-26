@@ -1,0 +1,802 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TabbedPage
+    x:Class="XamarinApplication.Views.NewPatientPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:autocomplete="clr-namespace:Syncfusion.SfAutoComplete.XForms;assembly=Syncfusion.SfAutoComplete.XForms"
+    xmlns:combobox="clr-namespace:Syncfusion.XForms.ComboBox;assembly=Syncfusion.SfComboBox.XForms"
+    xmlns:converters="clr-namespace:XamarinApplication.Validation"
+    xmlns:converters1="clr-namespace:XamarinApplication.Converters"
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:i18n="clr-namespace:XamarinApplication.Helpers"
+    xmlns:input="clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit"
+    xmlns:inputLayout="clr-namespace:Syncfusion.XForms.TextInputLayout;assembly=Syncfusion.Core.XForms"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <ContentPage
+        HeightRequest="60"
+        Icon="one.png"
+        WidthRequest="60">
+        <ContentPage.Resources>
+            <ResourceDictionary>
+                <converters:NotNullOrEmptyStringConverter x:Key="NotNullOrEmptyStringConverter" />
+                <converters:FiscalCodeCorrectConverter x:Key="FiscaleCodeCorrectConverter" />
+                <converters:FiscalCodeCorrectToHideLabelConverter x:Key="FiscalCodeCorrectToHideLabelConverter" />
+                <converters:BirthDateCorrectToHideLabelConverter x:Key="BirthDateCorrectToHideLabelConverter" />
+                <converters1:DatetimeToStringConverter x:Key="DatetimeConverter" />
+            </ResourceDictionary>
+        </ContentPage.Resources>
+        <ScrollView Orientation="Both">
+            <Frame
+                Margin="10,5,10,20"
+                BackgroundColor="#FDFFFC"
+                BorderColor="#D3D4D9"
+                HasShadow="true">
+                <StackLayout>
+                    <Label
+                        Margin="5,0,5,3"
+                        FontAttributes="Bold"
+                        FontSize="Large"
+                        HorizontalOptions="Center"
+                        Text="{i18n:Translate NewPatient}"
+                        TextColor="#5B8E7D" />
+                    <Grid Padding="5" HorizontalOptions="CenterAndExpand">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="290" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <inputLayout:SfTextInputLayout
+                            Grid.Row="0"
+                            ContainerBackgroundColor="#E6EEF9"
+                            ContainerType="Outlined"
+                            FocusedColor="#0450C2"
+                            Hint="{i18n:Translate Title}"
+                            OutlineCornerRadius="20"
+                            UnfocusedColor="#28BAAE">
+                            <Picker
+                                Title="--Please Select Title--"
+                                FontSize="14"
+                                ItemDisplayBinding="{Binding Value}"
+                                ItemsSource="{Binding ListTitle}"
+                                SelectedItem="{Binding SelectedTitle}"
+                                TextColor="#5A5A66"
+                                WidthRequest="150" />
+                        </inputLayout:SfTextInputLayout>
+                        <inputLayout:SfTextInputLayout
+                            Grid.Row="1"
+                            Margin="0,-15,0,0"
+                            ContainerBackgroundColor="#E6EEF9"
+                            ContainerType="Outlined"
+                            FocusedColor="#0450C2"
+                            Hint="{i18n:Translate FirstName}"
+                            OutlineCornerRadius="20"
+                            UnfocusedColor="#28BAAE">
+                            <Entry
+                                x:Name="FirstNameEntry"
+                                Placeholder="{i18n:Translate FirstName}"
+                                Text="{Binding FirstName, Mode=TwoWay}"
+                                TextColor="Black" />
+                        </inputLayout:SfTextInputLayout>
+                        <Label
+                            Grid.Row="2"
+                            Margin="0,-15,0,0"
+                            FontSize="Small"
+                            HorizontalTextAlignment="Center"
+                            IsVisible="False"
+                            Text="FirstName is Required"
+                            TextColor="OrangeRed">
+                            <Label.Triggers>
+                                <MultiTrigger TargetType="Label">
+                                    <MultiTrigger.Conditions>
+                                        <BindingCondition Binding="{Binding Source={x:Reference FirstNameEntry}, Path=Text, Converter={StaticResource NotNullOrEmptyStringConverter}}" Value="False" />
+                                    </MultiTrigger.Conditions>
+                                    <Setter Property="IsVisible" Value="{Binding Value}" />
+                                </MultiTrigger>
+                            </Label.Triggers>
+                        </Label>
+                        <inputLayout:SfTextInputLayout
+                            Grid.Row="3"
+                            Margin="0,-15,0,0"
+                            ContainerBackgroundColor="#E6EEF9"
+                            ContainerType="Outlined"
+                            FocusedColor="#0450C2"
+                            Hint="{i18n:Translate LastName}"
+                            OutlineCornerRadius="20"
+                            UnfocusedColor="#28BAAE">
+                            <Entry
+                                x:Name="LastNameEntry"
+                                Placeholder="{i18n:Translate LastName}"
+                                Text="{Binding LastName, Mode=TwoWay}"
+                                TextColor="Black"
+                                WidthRequest="500" />
+                        </inputLayout:SfTextInputLayout>
+                        <Label
+                            Grid.Row="4"
+                            Margin="0,-15,0,0"
+                            FontSize="Small"
+                            HorizontalTextAlignment="Center"
+                            IsVisible="False"
+                            Text="LastName is Required"
+                            TextColor="OrangeRed"
+                            WidthRequest="210">
+                            <Label.Triggers>
+                                <MultiTrigger TargetType="Label">
+                                    <MultiTrigger.Conditions>
+                                        <BindingCondition Binding="{Binding Source={x:Reference LastNameEntry}, Path=Text, Converter={StaticResource NotNullOrEmptyStringConverter}}" Value="False" />
+                                    </MultiTrigger.Conditions>
+                                    <Setter Property="IsVisible" Value="{Binding Value}" />
+                                </MultiTrigger>
+                            </Label.Triggers>
+                        </Label>
+                        <inputLayout:SfTextInputLayout
+                            Grid.Row="5"
+                            Margin="0,-15,0,0"
+                            ContainerBackgroundColor="#E6EEF9"
+                            ContainerType="Outlined"
+                            FocusedColor="#0450C2"
+                            Hint="{i18n:Translate FiscalCode}"
+                            OutlineCornerRadius="20"
+                            UnfocusedColor="#28BAAE">
+                            <Entry
+                                x:Name="FiscalCodeEntry"
+                                Placeholder="{i18n:Translate FiscalCode}"
+                                Text="{Binding FiscalCode, Mode=TwoWay}"
+                                TextColor="Black"
+                                WidthRequest="500" />
+                        </inputLayout:SfTextInputLayout>
+                        <Label
+                            Grid.Row="6"
+                            Margin="0,-15,0,0"
+                            FontSize="Small"
+                            HorizontalTextAlignment="Center"
+                            IsVisible="False"
+                            Text="Fiscale Code invalid ..."
+                            TextColor="OrangeRed">
+                            <Label.Triggers>
+                                <MultiTrigger TargetType="Label">
+                                    <MultiTrigger.Conditions>
+                                        <BindingCondition Binding="{Binding Source={x:Reference FiscalCodeEntry}, Path=Text, Converter={StaticResource FiscalCodeCorrectToHideLabelConverter}}" Value="False" />
+                                    </MultiTrigger.Conditions>
+                                    <Setter Property="IsVisible" Value="True" />
+                                </MultiTrigger>
+                            </Label.Triggers>
+                        </Label>
+                        <Label
+                            Grid.Row="6"
+                            Margin="0,-15,0,0"
+                            FontSize="Small"
+                            HorizontalTextAlignment="Center"
+                            IsVisible="False"
+                            Text="Fiscal Code is Required"
+                            TextColor="OrangeRed"
+                            WidthRequest="210">
+                            <Label.Triggers>
+                                <MultiTrigger TargetType="Label">
+                                    <MultiTrigger.Conditions>
+                                        <BindingCondition Binding="{Binding Source={x:Reference FiscalCodeEntry}, Path=Text, Converter={StaticResource NotNullOrEmptyStringConverter}}" Value="False" />
+                                    </MultiTrigger.Conditions>
+                                    <Setter Property="IsVisible" Value="{Binding Value}" />
+                                </MultiTrigger>
+                            </Label.Triggers>
+                        </Label>
+                        <inputLayout:SfTextInputLayout
+                            Grid.Row="7"
+                            Margin="0,-15,0,0"
+                            ContainerBackgroundColor="#E6EEF9"
+                            ContainerType="Outlined"
+                            FocusedColor="#0450C2"
+                            Hint="{i18n:Translate BirthDate}"
+                            OutlineCornerRadius="20"
+                            UnfocusedColor="#28BAAE">
+                            <!-- <DatePicker
+                                x:Name="BirthDateName"
+                                Date="{Binding DateNow}"
+                                Format="dd-MM-yyyy"
+                                WidthRequest="270" />-->
+                            <Entry
+                                x:Name="BirthDateName"
+                                Placeholder="dd-MM-yyyy"
+                                Text="{Binding DateNow, Mode=TwoWay}"
+                                TextColor="Black"
+                                WidthRequest="500" />
+                        </inputLayout:SfTextInputLayout>
+                        <!--  <Label
+                            Grid.Row="8"
+                            Margin="0,-15,0,0"
+                            FontSize="Small"
+                            HorizontalTextAlignment="Center"
+                            IsVisible="False"
+                            Text="BirthDate invalid ..."
+                            TextColor="OrangeRed">
+                            <Label.Triggers>
+                                <MultiTrigger TargetType="Label">
+                                    <MultiTrigger.Conditions>
+                                        <BindingCondition Binding="{Binding Source={x:Reference BirthDateName}, Path=Text, Converter={StaticResource BirthDateCorrectToHideLabelConverter}}" Value="False" />
+                                    </MultiTrigger.Conditions>
+                                    <Setter Property="IsVisible" Value="True" />
+                                </MultiTrigger>
+                            </Label.Triggers>
+                        </Label>-->
+                        <inputLayout:SfTextInputLayout
+                            Grid.Row="9"
+                            Margin="0,-15,0,0"
+                            ContainerBackgroundColor="#E6EEF9"
+                            ContainerType="Outlined"
+                            FocusedColor="#0450C2"
+                            Hint="{i18n:Translate PlaceOfBirth}"
+                            OutlineCornerRadius="20"
+                            UnfocusedColor="#28BAAE">
+                            <combobox:SfComboBox
+                                x:Name="PlaceOfBirthEntry"
+                                BorderColor="Blue"
+                                DataSource="{Binding ComuniLocalAutoComplete}"
+                                DisplayMemberPath="description"
+                                HeightRequest="50"
+                                HorizontalOptions="CenterAndExpand"
+                                IsEditableMode="true"
+                                NoResultsFoundFontAttributes="Bold"
+                                NoResultsFoundFontSize="16"
+                                NoResultsFoundText="{i18n:Translate NoResultsFound}"
+                                NoResultsFoundTextColor="DarkGreen"
+                                SelectedItem="{Binding PlaceOfBirth}"
+                                SuggestionMode="StartsWith"
+                                TextColor="Black"
+                                VerticalOptions="CenterAndExpand"
+                                WidthRequest="210" />
+                        </inputLayout:SfTextInputLayout>
+                        <Label
+                            Grid.Row="10"
+                            Margin="0,-15,0,0"
+                            FontSize="Small"
+                            HorizontalTextAlignment="Center"
+                            IsVisible="False"
+                            Text="Place Of Birth is Required"
+                            TextColor="OrangeRed"
+                            WidthRequest="210">
+                            <Label.Triggers>
+                                <MultiTrigger TargetType="Label">
+                                    <MultiTrigger.Conditions>
+                                        <BindingCondition Binding="{Binding Source={x:Reference PlaceOfBirthEntry}, Path=Text, Converter={StaticResource NotNullOrEmptyStringConverter}}" Value="False" />
+                                    </MultiTrigger.Conditions>
+                                    <Setter Property="IsVisible" Value="{Binding Value}" />
+                                </MultiTrigger>
+                            </Label.Triggers>
+                        </Label>
+                        <inputLayout:SfTextInputLayout
+                            Grid.Row="11"
+                            Margin="0,-15,0,0"
+                            ContainerBackgroundColor="#E6EEF9"
+                            ContainerType="Outlined"
+                            FocusedColor="#0450C2"
+                            Hint="{i18n:Translate Note}"
+                            OutlineCornerRadius="20"
+                            UnfocusedColor="#28BAAE">
+                            <Entry
+                                HeightRequest="100"
+                                Placeholder="Note"
+                                Text="{Binding Note, Mode=TwoWay}"
+                                TextColor="Black"
+                                WidthRequest="500" />
+                        </inputLayout:SfTextInputLayout>
+                        <StackLayout
+                            Grid.Row="12"
+                            Margin="0,-15,0,0"
+                            Orientation="Horizontal">
+                            <input:SelectionView
+                                x:Name="StatusEntry"
+                                BackgroundColor="Blue"
+                                ColumnNumber="1"
+                                ColumnSpacing="5"
+                                HorizontalOptions="FillAndExpand"
+                                ItemDisplayBinding="{Binding Value}"
+                                ItemsSource="{Binding ListSex}"
+                                RowSpacing="5"
+                                SelectedItem="{Binding SelectedSex}"
+                                SelectionType="RadioButton"
+                                VerticalOptions="FillAndExpand"
+                                Color="Blue" />
+                        </StackLayout>
+                    </Grid>
+                </StackLayout>
+            </Frame>
+        </ScrollView>
+    </ContentPage>
+    <ContentPage
+        HeightRequest="60"
+        IconImageSource="two"
+        WidthRequest="60">
+        <ContentPage.Resources>
+            <ResourceDictionary>
+                <converters:NotNullOrEmptyStringConverter x:Key="NotNullOrEmptyStringConverter" />
+            </ResourceDictionary>
+        </ContentPage.Resources>
+        <ScrollView>
+            <Frame
+                Margin="10,5,10,20"
+                BackgroundColor="#FDFFFC"
+                BorderColor="#D3D4D9"
+                HasShadow="true">
+                <StackLayout>
+                    <Label
+                        Margin="5,0,5,3"
+                        FontAttributes="Bold"
+                        FontSize="Large"
+                        HorizontalOptions="Center"
+                        Text="{i18n:Translate NewPatient}"
+                        TextColor="#5B8E7D" />
+                    <Grid Padding="5" HorizontalOptions="CenterAndExpand">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="290" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <inputLayout:SfTextInputLayout
+                            Grid.Row="0"
+                            ContainerBackgroundColor="#E6EEF9"
+                            ContainerType="Outlined"
+                            FocusedColor="#0450C2"
+                            Hint="{i18n:Translate Phone}"
+                            OutlineCornerRadius="20"
+                            UnfocusedColor="#28BAAE">
+                            <Entry
+                                Keyboard="Telephone"
+                                Placeholder="{i18n:Translate Phone}"
+                                Text="{Binding Phone, Mode=TwoWay}"
+                                TextColor="Black"
+                                WidthRequest="500" />
+                        </inputLayout:SfTextInputLayout>
+                        <inputLayout:SfTextInputLayout
+                            Grid.Row="1"
+                            Margin="0,-15,0,0"
+                            ContainerBackgroundColor="#E6EEF9"
+                            ContainerType="Outlined"
+                            FocusedColor="#0450C2"
+                            Hint="CellPhone"
+                            OutlineCornerRadius="20"
+                            UnfocusedColor="#28BAAE">
+                            <Entry
+                                Keyboard="Telephone"
+                                Placeholder="CellPhone"
+                                Text="{Binding CellPhone, Mode=TwoWay}"
+                                TextColor="Black"
+                                WidthRequest="500" />
+                        </inputLayout:SfTextInputLayout>
+                        <inputLayout:SfTextInputLayout
+                            Grid.Row="2"
+                            Margin="0,-15,0,0"
+                            ContainerBackgroundColor="#E6EEF9"
+                            ContainerType="Outlined"
+                            FocusedColor="#0450C2"
+                            Hint="Email"
+                            OutlineCornerRadius="20"
+                            UnfocusedColor="#28BAAE">
+                            <Entry
+                                Placeholder="Email"
+                                Text="{Binding Email, Mode=TwoWay}"
+                                TextColor="Black"
+                                WidthRequest="500" />
+                        </inputLayout:SfTextInputLayout>
+                        <inputLayout:SfTextInputLayout
+                            Grid.Row="3"
+                            Margin="0,-15,0,0"
+                            ContainerBackgroundColor="#E6EEF9"
+                            ContainerType="Outlined"
+                            FocusedColor="#0450C2"
+                            Hint="{i18n:Translate Domicile}"
+                            OutlineCornerRadius="20"
+                            UnfocusedColor="#28BAAE">
+                            <combobox:SfComboBox
+                                x:Name="DomicileEntry"
+                                BorderColor="Blue"
+                                DataSource="{Binding ComuniLocalAutoComplete}"
+                                DisplayMemberPath="description"
+                                HeightRequest="50"
+                                HorizontalOptions="CenterAndExpand"
+                                IsEditableMode="true"
+                                NoResultsFoundFontAttributes="Bold"
+                                NoResultsFoundFontSize="16"
+                                NoResultsFoundText="{i18n:Translate NoResultsFound}"
+                                NoResultsFoundTextColor="DarkGreen"
+                                SelectedItem="{Binding Domicile}"
+                                SuggestionMode="StartsWith"
+                                TextColor="Black"
+                                VerticalOptions="CenterAndExpand"
+                                WidthRequest="210" />
+                        </inputLayout:SfTextInputLayout>
+                        <Label
+                            Grid.Row="4"
+                            Margin="0,-15,0,0"
+                            FontSize="Small"
+                            HorizontalTextAlignment="Center"
+                            IsVisible="False"
+                            Text="Domicile is Required"
+                            TextColor="OrangeRed"
+                            WidthRequest="210">
+                            <Label.Triggers>
+                                <MultiTrigger TargetType="Label">
+                                    <MultiTrigger.Conditions>
+                                        <BindingCondition Binding="{Binding Source={x:Reference DomicileEntry}, Path=Text, Converter={StaticResource NotNullOrEmptyStringConverter}}" Value="False" />
+                                    </MultiTrigger.Conditions>
+                                    <Setter Property="IsVisible" Value="{Binding Value}" />
+                                </MultiTrigger>
+                            </Label.Triggers>
+                        </Label>
+                        <inputLayout:SfTextInputLayout
+                            Grid.Row="5"
+                            Margin="0,-15,0,0"
+                            ContainerBackgroundColor="#E6EEF9"
+                            ContainerType="Outlined"
+                            FocusedColor="#0450C2"
+                            Hint="{i18n:Translate StreetDomicile}"
+                            OutlineCornerRadius="20"
+                            UnfocusedColor="#28BAAE">
+                            <Entry
+                                Placeholder="Street"
+                                Text="{Binding StreetDomicile, Mode=TwoWay}"
+                                TextColor="Black"
+                                WidthRequest="500" />
+                        </inputLayout:SfTextInputLayout>
+                        <inputLayout:SfTextInputLayout
+                            Grid.Row="6"
+                            Margin="0,-15,0,0"
+                            ContainerBackgroundColor="#E6EEF9"
+                            ContainerType="Outlined"
+                            FocusedColor="#0450C2"
+                            Hint="{i18n:Translate Residence}"
+                            OutlineCornerRadius="20"
+                            UnfocusedColor="#28BAAE">
+                            <combobox:SfComboBox
+                                x:Name="ResidenceEntry"
+                                BorderColor="Blue"
+                                DataSource="{Binding ComuniLocalAutoComplete}"
+                                DisplayMemberPath="description"
+                                HeightRequest="50"
+                                HorizontalOptions="CenterAndExpand"
+                                IsEditableMode="true"
+                                NoResultsFoundFontAttributes="Bold"
+                                NoResultsFoundFontSize="16"
+                                NoResultsFoundText="{i18n:Translate NoResultsFound}"
+                                NoResultsFoundTextColor="DarkGreen"
+                                SelectedItem="{Binding Residence}"
+                                SuggestionMode="StartsWith"
+                                TextColor="Black"
+                                VerticalOptions="CenterAndExpand"
+                                WidthRequest="210" />
+                        </inputLayout:SfTextInputLayout>
+                        <Label
+                            Grid.Row="7"
+                            Margin="0,-15,0,0"
+                            FontSize="Small"
+                            HorizontalTextAlignment="Center"
+                            IsVisible="False"
+                            Text="Residence is Required"
+                            TextColor="OrangeRed"
+                            WidthRequest="210">
+                            <Label.Triggers>
+                                <MultiTrigger TargetType="Label">
+                                    <MultiTrigger.Conditions>
+                                        <BindingCondition Binding="{Binding Source={x:Reference ResidenceEntry}, Path=Text, Converter={StaticResource NotNullOrEmptyStringConverter}}" Value="False" />
+                                    </MultiTrigger.Conditions>
+                                    <Setter Property="IsVisible" Value="{Binding Value}" />
+                                </MultiTrigger>
+                            </Label.Triggers>
+                        </Label>
+                        <inputLayout:SfTextInputLayout
+                            Grid.Row="8"
+                            Margin="0,-15,0,0"
+                            ContainerBackgroundColor="#E6EEF9"
+                            ContainerType="Outlined"
+                            FocusedColor="#0450C2"
+                            Hint="{i18n:Translate StreetResidence}"
+                            OutlineCornerRadius="20"
+                            UnfocusedColor="#28BAAE">
+                            <Entry
+                                Placeholder="Street"
+                                Text="{Binding StreetResidence, Mode=TwoWay}"
+                                TextColor="Black"
+                                WidthRequest="500" />
+                        </inputLayout:SfTextInputLayout>
+                        <inputLayout:SfTextInputLayout
+                            Grid.Row="9"
+                            Margin="0,-15,0,0"
+                            ContainerBackgroundColor="#E6EEF9"
+                            ContainerType="Outlined"
+                            FocusedColor="#0450C2"
+                            Hint="{i18n:Translate Client}"
+                            OutlineCornerRadius="20"
+                            UnfocusedColor="#28BAAE">
+                            <combobox:SfComboBox
+                                x:Name="ClientEntry"
+                                BorderColor="Blue"
+                                DataSource="{Binding ClientAutoComplete}"
+                                DisplayMemberPath="companyName"
+                                HeightRequest="50"
+                                HorizontalOptions="CenterAndExpand"
+                                IsEditableMode="true"
+                                NoResultsFoundFontAttributes="Bold"
+                                NoResultsFoundFontSize="16"
+                                NoResultsFoundText="{i18n:Translate NoResultsFound}"
+                                NoResultsFoundTextColor="DarkGreen"
+                                SelectedItem="{Binding Client}"
+                                SuggestionMode="StartsWith"
+                                TextColor="Black"
+                                VerticalOptions="CenterAndExpand"
+                                WidthRequest="210" />
+                        </inputLayout:SfTextInputLayout>
+                        <Label
+                            Grid.Row="10"
+                            Margin="0,-15,0,0"
+                            FontSize="Small"
+                            HorizontalTextAlignment="Center"
+                            IsVisible="False"
+                            Text="Client is Required"
+                            TextColor="OrangeRed"
+                            WidthRequest="210">
+                            <Label.Triggers>
+                                <MultiTrigger TargetType="Label">
+                                    <MultiTrigger.Conditions>
+                                        <BindingCondition Binding="{Binding Source={x:Reference ClientEntry}, Path=Text, Converter={StaticResource NotNullOrEmptyStringConverter}}" Value="False" />
+                                    </MultiTrigger.Conditions>
+                                    <Setter Property="IsVisible" Value="{Binding Value}" />
+                                </MultiTrigger>
+                            </Label.Triggers>
+                        </Label>
+                        <StackLayout
+                            Grid.Row="11"
+                            Margin="0,20,0,0"
+                            HeightRequest="50"
+                            HorizontalOptions="CenterAndExpand"
+                            Orientation="Horizontal">
+                            <Button
+                                BackgroundColor="#00B2CA"
+                                Command="{Binding SavePatient}"
+                                CornerRadius="25"
+                                HorizontalOptions="Center"
+                                Text="{i18n:Translate Save}"
+                                TextColor="#090C9B"
+                                WidthRequest="140">
+                                <Button.Triggers>
+                                    <MultiTrigger TargetType="Button">
+                                        <MultiTrigger.Conditions>
+                                            <BindingCondition Binding="{Binding Source={x:Reference FirstNameEntry}, Path=Text, Converter={StaticResource NotNullOrEmptyStringConverter}}" Value="True" />
+                                            <BindingCondition Binding="{Binding Source={x:Reference LastNameEntry}, Path=Text, Converter={StaticResource NotNullOrEmptyStringConverter}}" Value="True" />
+                                            <BindingCondition Binding="{Binding Source={x:Reference FiscalCodeEntry}, Path=Text, Converter={StaticResource NotNullOrEmptyStringConverter}}" Value="True" />
+                                            <!--<BindingCondition Binding="{Binding Source={x:Reference FiscalCodeEntry}, Path=Text, Converter={StaticResource FiscalCodeCorrectToHideLabelConverter}}" Value="True" />-->
+                                            <BindingCondition Binding="{Binding Source={x:Reference PlaceOfBirthEntry}, Path=Text, Converter={StaticResource NotNullOrEmptyStringConverter}}" Value="True" />
+                                            <BindingCondition Binding="{Binding Source={x:Reference DomicileEntry}, Path=Text, Converter={StaticResource NotNullOrEmptyStringConverter}}" Value="True" />
+                                            <BindingCondition Binding="{Binding Source={x:Reference ResidenceEntry}, Path=Text, Converter={StaticResource NotNullOrEmptyStringConverter}}" Value="True" />
+                                            <BindingCondition Binding="{Binding Source={x:Reference ClientEntry}, Path=Text, Converter={StaticResource NotNullOrEmptyStringConverter}}" Value="True" />
+                                        </MultiTrigger.Conditions>
+                                        <Setter Property="IsEnabled" Value="{Binding IsEnabled, Mode=TwoWay}" />
+                                    </MultiTrigger>
+                                </Button.Triggers>
+                            </Button>
+                            <Button
+                                BackgroundColor="#E0E2DB"
+                                Command="{Binding ClosePopup}"
+                                CornerRadius="25"
+                                HorizontalOptions="Center"
+                                Text="{i18n:Translate Close}"
+                                TextColor="#8B2635"
+                                WidthRequest="140" />
+                        </StackLayout>
+                    </Grid>
+                </StackLayout>
+            </Frame>
+        </ScrollView>
+    </ContentPage>
+    <!--
+    <ContentPage
+        HeightRequest="60"
+        IconImageSource="three"
+        WidthRequest="60">
+        <ContentPage.Resources>
+            <ResourceDictionary>
+                <converters:NotNullOrEmptyStringConverter x:Key="NotNullOrEmptyStringConverter" />
+            </ResourceDictionary>
+        </ContentPage.Resources>
+        <ScrollView BackgroundColor="Transparent">
+            <Frame
+                Margin="10,5,10,20"
+                BackgroundColor="#FDFFFC"
+                BorderColor="#D3D4D9"
+                HasShadow="true">
+                <StackLayout>
+                    <Label
+                        Margin="5,0,5,3"
+                        FontAttributes="Bold"
+                        FontSize="Large"
+                        HorizontalOptions="Center"
+                        Text="{i18n:Translate NewPatient}"
+                        TextColor="#5B8E7D" />
+                    <Grid Padding="5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="300" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <inputLayout:SfTextInputLayout
+                            Grid.Row="0"
+                            ContainerBackgroundColor="#E6EEF9"
+                            ContainerType="Outlined"
+                            FocusedColor="#0450C2"
+                            Hint="Cod.Destinatario"
+                            OutlineCornerRadius="20"
+                            UnfocusedColor="#28BAAE">
+                            <Entry
+                                Placeholder="Cod.Destinatario"
+                                Text="{Binding CodeDestinatario, Mode=TwoWay}"
+                                TextColor="Black"
+                                WidthRequest="500" />
+                        </inputLayout:SfTextInputLayout>
+                        <inputLayout:SfTextInputLayout
+                            Grid.Row="1"
+                            Margin="0,-15,0,0"
+                            ContainerBackgroundColor="#E6EEF9"
+                            ContainerType="Outlined"
+                            FocusedColor="#0450C2"
+                            Hint="Inderizio Pec"
+                            OutlineCornerRadius="20"
+                            UnfocusedColor="#28BAAE">
+                            <Entry
+                                Placeholder="Inderizio Pec"
+                                Text="{Binding InderizioPec, Mode=TwoWay}"
+                                TextColor="Black"
+                                WidthRequest="500" />
+                        </inputLayout:SfTextInputLayout>
+                        <inputLayout:SfTextInputLayout
+                            Grid.Row="2"
+                            Margin="0,-15,0,0"
+                            ContainerBackgroundColor="#E6EEF9"
+                            ContainerType="Outlined"
+                            FocusedColor="#0450C2"
+                            Hint="P.iva"
+                            OutlineCornerRadius="20"
+                            UnfocusedColor="#28BAAE">
+                            <Entry
+                                Placeholder="P.iva"
+                                Text="{Binding PIVA, Mode=TwoWay}"
+                                TextColor="Black"
+                                WidthRequest="500" />
+                        </inputLayout:SfTextInputLayout>
+                        <inputLayout:SfTextInputLayout
+                            Grid.Row="3"
+                            Margin="0,-15,0,0"
+                            ContainerBackgroundColor="#E6EEF9"
+                            ContainerType="Outlined"
+                            FocusedColor="#0450C2"
+                            Hint="{i18n:Translate BillingAddress}"
+                            OutlineCornerRadius="20"
+                            UnfocusedColor="#28BAAE">
+                            <Entry
+                                HeightRequest="80"
+                                Placeholder="{i18n:Translate BillingAddress}"
+                                Text="{Binding BillingAddress, Mode=TwoWay}"
+                                TextColor="Black"
+                                WidthRequest="500" />
+                        </inputLayout:SfTextInputLayout>
+                        <inputLayout:SfTextInputLayout
+                            Grid.Row="4"
+                            Margin="0,-15,0,0"
+                            ContainerBackgroundColor="#E6EEF9"
+                            ContainerType="Outlined"
+                            FocusedColor="#0450C2"
+                            Hint="{i18n:Translate ConditionPayment}"
+                            OutlineCornerRadius="20"
+                            UnfocusedColor="#28BAAE">
+                            <Picker
+                                Title="Select Condition Payment"
+                                FontSize="14"
+                                ItemDisplayBinding="{Binding Value}"
+                                ItemsSource="{Binding ListConditionPayment}"
+                                SelectedItem="{Binding SelectedConditionPayment}"
+                                TextColor="#5A5A66"
+                                WidthRequest="150" />
+                        </inputLayout:SfTextInputLayout>
+                        <inputLayout:SfTextInputLayout
+                            Grid.Row="5"
+                            Margin="0,-15,0,0"
+                            ContainerBackgroundColor="#E6EEF9"
+                            ContainerType="Outlined"
+                            FocusedColor="#0450C2"
+                            Hint="{i18n:Translate NotePaymentCondition}"
+                            OutlineCornerRadius="20"
+                            UnfocusedColor="#28BAAE">
+                            <Entry
+                                HeightRequest="80"
+                                Placeholder="Note Payment Condition"
+                                Text="{Binding NotePayment, Mode=TwoWay}"
+                                TextColor="Black"
+                                WidthRequest="500" />
+                        </inputLayout:SfTextInputLayout>
+                        <StackLayout
+                            Grid.Row="6"
+                            Margin="0,20,0,0"
+                            HeightRequest="50"
+                            HorizontalOptions="CenterAndExpand"
+                            Orientation="Horizontal">
+                            <Button
+                                BackgroundColor="#00B2CA"
+                                Command="{Binding SavePatient}"
+                                CornerRadius="25"
+                                HorizontalOptions="Center"
+                                Text="{i18n:Translate Save}"
+                                TextColor="#090C9B"
+                                WidthRequest="140">
+                                <Button.Triggers>
+                                    <MultiTrigger TargetType="Button">
+                                        <MultiTrigger.Conditions>
+                                            <BindingCondition Binding="{Binding Source={x:Reference FirstNameEntry}, Path=Text, Converter={StaticResource NotNullOrEmptyStringConverter}}" Value="True" />
+                                            <BindingCondition Binding="{Binding Source={x:Reference LastNameEntry}, Path=Text, Converter={StaticResource NotNullOrEmptyStringConverter}}" Value="True" />
+                                            <BindingCondition Binding="{Binding Source={x:Reference FiscalCodeEntry}, Path=Text, Converter={StaticResource NotNullOrEmptyStringConverter}}" Value="True" />
+                                            <BindingCondition Binding="{Binding Source={x:Reference PlaceOfBirthEntry}, Path=Text, Converter={StaticResource NotNullOrEmptyStringConverter}}" Value="True" />
+                                            <BindingCondition Binding="{Binding Source={x:Reference DomicileEntry}, Path=Text, Converter={StaticResource NotNullOrEmptyStringConverter}}" Value="True" />
+                                            <BindingCondition Binding="{Binding Source={x:Reference ResidenceEntry}, Path=Text, Converter={StaticResource NotNullOrEmptyStringConverter}}" Value="True" />
+                                            <BindingCondition Binding="{Binding Source={x:Reference ClientEntry}, Path=Text, Converter={StaticResource NotNullOrEmptyStringConverter}}" Value="True" />
+                                        </MultiTrigger.Conditions>
+                                        <Setter Property="IsEnabled" Value="{Binding IsEnabled, Mode=TwoWay}" />
+                                    </MultiTrigger>
+                                </Button.Triggers>
+                            </Button>
+                            <Button
+                                BackgroundColor="#E0E2DB"
+                                Command="{Binding ClosePopup}"
+                                CornerRadius="25"
+                                HorizontalOptions="Center"
+                                Text="{i18n:Translate Close}"
+                                TextColor="#8B2635"
+                                WidthRequest="140" />
+                        </StackLayout>
+                    </Grid>
+                </StackLayout>
+            </Frame>
+        </ScrollView>
+    </ContentPage>
+    -->
+</TabbedPage>

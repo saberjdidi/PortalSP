@@ -1,0 +1,223 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="XamarinApplication.Views.RequestLogPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:custom="clr-namespace:XamarinApplication"
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:i18n="clr-namespace:XamarinApplication.Helpers"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="{i18n:Translate RequestLog}"
+    mc:Ignorable="d">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+            Command="{Binding OpenSearchBar}"
+            IconImageSource="ic_search_white_24dp"
+            Text="{Binding ShowHide}" />
+    </ContentPage.ToolbarItems>
+    <Grid
+        BackgroundColor="White"
+        HorizontalOptions="FillAndExpand"
+        RowSpacing="0"
+        VerticalOptions="FillAndExpand">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <!-- <Grid Padding="30,10,30,10">
+            <Image
+                HeightRequest="25"
+                HorizontalOptions="Start"
+                Source="hamburgerMenu" />
+            <Image
+                HeightRequest="25"
+                HorizontalOptions="End"
+                Source="ic_search_white_24dp">
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding OpenSearchBar}" />
+                </Image.GestureRecognizers>
+            </Image>
+        </Grid>-->
+        <custom:RoundedCornerView
+            Grid.Row="1"
+            Margin="10,0,10,0"
+            BorderWidth="1"
+            RoundedCornerRadius="25">
+            <SearchBar
+                BackgroundColor="#45C5D9"
+                HeightRequest="46"
+                IsVisible="{Binding ShowHide}"
+                Placeholder="{i18n:Translate Search}"
+                SearchCommand="{Binding SearchCommand}"
+                Text="{Binding Filter, Mode=TwoWay}" />
+        </custom:RoundedCornerView>
+        <Label
+            Grid.Row="2"
+            FontSize="24"
+            HorizontalOptions="FillAndExpand"
+            HorizontalTextAlignment="Center"
+            IsVisible="{Binding IsVisibleStatus}"
+            Text="{i18n:Translate NoResult}"
+            TextColor="Black"
+            VerticalOptions="FillAndExpand"
+            VerticalTextAlignment="Center" />
+        <RefreshView
+            Grid.Row="2"
+            Command="{Binding RefreshCommand}"
+            IsRefreshing="{Binding IsRefreshing}">
+            <CollectionView
+                Grid.Row="2"
+                Margin="10,3,10,10"
+                HorizontalOptions="FillAndExpand"
+                ItemsSource="{Binding RequestLog}"
+                SelectionMode="None"
+                VerticalOptions="FillAndExpand">
+                <CollectionView.Header>
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="18"
+                        Text="{i18n:Translate RequestLog}"
+                        TextColor="#45C5D9" />
+                </CollectionView.Header>
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout ItemSpacing="20" Orientation="Vertical" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame
+                            Padding="0"
+                            BackgroundColor="Transparent"
+                            HasShadow="True"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="StartAndExpand">
+                            <Grid HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand">
+                                <Expander
+                                    x:Name="MainExpander"
+                                    CollapseAnimationLength="500"
+                                    Tapped="MainExpander_Tapped">
+                                    <Expander.Header>
+                                        <Grid BackgroundColor="#45C5D9" HorizontalOptions="FillAndExpand">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="3*" />
+                                            </Grid.ColumnDefinitions>
+                                            <BoxView BackgroundColor="#A0A4C9" Opacity="0.2" />
+                                            <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                                                <Label
+                                                    FontAttributes="Bold"
+                                                    FontSize="13"
+                                                    HorizontalOptions="Center"
+                                                    Text="{Binding date, StringFormat='{0:ddd}'}"
+                                                    TextColor="#6670CC" />
+                                                <Label
+                                                    Margin="0,-10,0,0"
+                                                    FontAttributes="Bold"
+                                                    FontSize="26"
+                                                    HorizontalOptions="Center"
+                                                    Text="{Binding date, StringFormat='{0:dd}'}"
+                                                    TextColor="#FF5151" />
+                                            </StackLayout>
+                                            <StackLayout
+                                                Grid.Column="1"
+                                                Margin="20"
+                                                HorizontalOptions="Start"
+                                                VerticalOptions="Center">
+                                                <Label
+                                                    FontSize="15"
+                                                    Text="{Binding fileName}"
+                                                    TextColor="Black" />
+                                                <Label
+                                                    Margin="0,-5,0,0"
+                                                    FontSize="12"
+                                                    Opacity="0.85"
+                                                    Text="{Binding globalMessage}"
+                                                    TextColor="Black" />
+                                                <Label
+                                                    Margin="0,-5,0,0"
+                                                    FontSize="12"
+                                                    Opacity="0.5"
+                                                    Text="{Binding createBy.firstName}"
+                                                    TextColor="Black" />
+                                            </StackLayout>
+                                            <StackLayout
+                                                Grid.Column="2"
+                                                Orientation="Vertical"
+                                                VerticalOptions="Center">
+                                                <!-- <StackLayout.GestureRecognizers>
+                                                    <TapGestureRecognizer CommandParameter="{Binding id}" Tapped="Download_CSVFile" />
+                                                </StackLayout.GestureRecognizers>-->
+                                                <Image
+                                                    HeightRequest="50"
+                                                    Source="cloud_download.png"
+                                                    WidthRequest="50">
+                                                    <Image.GestureRecognizers>
+                                                        <TapGestureRecognizer CommandParameter="{Binding id}" Tapped="Download_CSVFile" />
+                                                    </Image.GestureRecognizers>
+                                                </Image>
+                                                <Image
+                                                    HeightRequest="50"
+                                                    Source="historic.png"
+                                                    WidthRequest="50">
+                                                    <Image.GestureRecognizers>
+                                                        <TapGestureRecognizer CommandParameter="{Binding id}" Tapped="Historic_RequestLog" />
+                                                    </Image.GestureRecognizers>
+                                                </Image>
+                                            </StackLayout>
+                                        </Grid>
+                                    </Expander.Header>
+                                    <Grid
+                                        HeightRequest="240"
+                                        HorizontalOptions="FillAndExpand"
+                                        RowSpacing="0">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="2*" />
+                                            <RowDefinition Height="1.5*" />
+                                        </Grid.RowDefinitions>
+                                        <Grid
+                                            x:Name="DetailsView"
+                                            Padding="20"
+                                            BackgroundColor="#45C5D9"
+                                            IsVisible="False">
+                                            <StackLayout>
+                                                <StackLayout Orientation="Horizontal">
+                                                    <Label
+                                                        FontSize="12"
+                                                        Opacity="0.85"
+                                                        Text="Date : "
+                                                        TextColor="Black" />
+                                                    <Label
+                                                        FontSize="12"
+                                                        Opacity="0.85"
+                                                        Text="{Binding date}"
+                                                        TextColor="Black" />
+                                                </StackLayout>
+                                                <StackLayout Orientation="Horizontal">
+                                                    <Label
+                                                        FontSize="12"
+                                                        Opacity="0.85"
+                                                        Text="CreateBy : "
+                                                        TextColor="Black" />
+                                                    <Label
+                                                        FontSize="12"
+                                                        Opacity="0.85"
+                                                        Text="{Binding createBy.firstName}"
+                                                        TextColor="Black" />
+                                                    <Label
+                                                        FontSize="12"
+                                                        Opacity="0.85"
+                                                        Text="{Binding createBy.lastName}"
+                                                        TextColor="Black" />
+                                                </StackLayout>
+                                            </StackLayout>
+                                        </Grid>
+                                    </Grid>
+                                </Expander>
+                            </Grid>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+    </Grid>
+</ContentPage>

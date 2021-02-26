@@ -1,0 +1,245 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:PopupPage
+    x:Class="XamarinApplication.Views.PatientDetailPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:animations="clr-namespace:Rg.Plugins.Popup.Animations;assembly=Rg.Plugins.Popup"
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:i18n="clr-namespace:XamarinApplication.Helpers"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+    mc:Ignorable="d">
+    <pages:PopupPage.Animation>
+        <animations:ScaleAnimation
+            DurationIn="400"
+            DurationOut="300"
+            EasingIn="SinOut"
+            EasingOut="SinIn"
+            HasBackgroundAnimation="True"
+            PositionIn="Center"
+            PositionOut="Center"
+            ScaleIn="1.2"
+            ScaleOut="0.8" />
+    </pages:PopupPage.Animation>
+    <StackLayout
+        Margin="10,10,10,10"
+        HorizontalOptions="Center"
+        VerticalOptions="Center">
+        <ScrollView Orientation="Vertical">
+            <Frame
+                Margin="2"
+                BackgroundColor="#FDFFFC"
+                BorderColor="#FDFFFC"
+                HasShadow="true">
+                <StackLayout>
+                    <StackLayout HorizontalOptions="End" VerticalOptions="End">
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="Close_Popup_Patient" />
+                        </StackLayout.GestureRecognizers>
+                        <Image
+                            HeightRequest="45"
+                            Source="close.png"
+                            WidthRequest="45" />
+                    </StackLayout>
+                    <Label
+                        Margin="5,-20,5,10"
+                        FontAttributes="Bold"
+                        FontSize="18"
+                        HorizontalOptions="Center"
+                        Text="{i18n:Translate PatientDetails}"
+                        TextColor="Black" />
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Label
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            FontAttributes="Bold"
+                            Text="{i18n:Translate FirstName}"
+                            TextColor="#118AB2" />
+                        <Label
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Text="{Binding Patient.firstName}"
+                            TextColor="Black" />
+                        <Label
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            FontAttributes="Bold"
+                            Text="{i18n:Translate LastName}"
+                            TextColor="#118AB2" />
+                        <Label
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Text="{Binding Patient.lastName}"
+                            TextColor="Black" />
+                        <Label
+                            Grid.Row="2"
+                            Grid.Column="0"
+                            FontAttributes="Bold"
+                            Text="{i18n:Translate FullName}"
+                            TextColor="#118AB2" />
+                        <Label
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            Text="{Binding Patient.fullName}"
+                            TextColor="Black" />
+                        <Label
+                            Grid.Row="3"
+                            Grid.Column="0"
+                            FontAttributes="Bold"
+                            Text="{i18n:Translate BirthDate}"
+                            TextColor="#118AB2" />
+                        <Label
+                            Grid.Row="3"
+                            Grid.Column="1"
+                            Text="{Binding Patient.birthDate}"
+                            TextColor="Black" />
+                        <Label
+                            Grid.Row="4"
+                            Grid.Column="0"
+                            FontAttributes="Bold"
+                            Text="{i18n:Translate FiscalCode}"
+                            TextColor="#118AB2" />
+                        <Label
+                            Grid.Row="4"
+                            Grid.Column="1"
+                            Text="{Binding Patient.fiscalCode}"
+                            TextColor="Black" />
+
+                        <Label
+                            Grid.Row="5"
+                            Grid.Column="0"
+                            FontAttributes="Bold"
+                            Text="{i18n:Translate Residence}"
+                            TextColor="#118AB2" />
+                        <Label
+                            Grid.Row="5"
+                            Grid.Column="1"
+                            Text="{Binding Patient.residence.comuniLocal.description}"
+                            TextColor="Black" />
+                        <Label
+                            Grid.Row="6"
+                            Grid.Column="0"
+                            FontAttributes="Bold"
+                            Text="{i18n:Translate Domicile}"
+                            TextColor="#118AB2" />
+                        <Label
+                            Grid.Row="6"
+                            Grid.Column="1"
+                            Text="{Binding Patient.domicile.comuniLocal.description}"
+                            TextColor="Black" />
+                        <Label
+                            Grid.Row="7"
+                            Grid.Column="0"
+                            FontAttributes="Bold"
+                            Text="{i18n:Translate Phone}"
+                            TextColor="#118AB2" />
+                        <Label
+                            Grid.Row="7"
+                            Grid.Column="1"
+                            Text="{Binding Patient.phone}"
+                            TextColor="Black" />
+                        <Label
+                            Grid.Row="8"
+                            Grid.Column="0"
+                            FontAttributes="Bold"
+                            Text="Email"
+                            TextColor="#118AB2" />
+                        <Label
+                            Grid.Row="8"
+                            Grid.Column="1"
+                            Text="{Binding Patient.email}"
+                            TextColor="Black" />
+                        <Label
+                            Grid.Row="9"
+                            Grid.Column="0"
+                            FontAttributes="Bold"
+                            Text="{i18n:Translate Client}"
+                            TextColor="#118AB2" />
+                        <Label
+                            Grid.Row="9"
+                            Grid.Column="1"
+                            Text="{Binding Patient.client.companyName}"
+                            TextColor="Black" />
+                        <StackLayout Grid.Row="10" Orientation="Vertical">
+                            <Label
+                                Grid.Row="10"
+                                FontSize="26"
+                                Text="{i18n:Translate Action}"
+                                TextColor="#457b9d" />
+                            <BoxView
+                                Grid.Row="11"
+                                HeightRequest="3"
+                                WidthRequest="500"
+                                Color="#BFC0C0" />
+                            <StackLayout Grid.Row="12" Orientation="Horizontal">
+                                <Image
+                                    HeightRequest="40"
+                                    Source="like.png"
+                                    WidthRequest="40">
+                                    <Image.GestureRecognizers>
+                                        <TapGestureRecognizer CommandParameter="{Binding id}" Tapped="Consent_document" />
+                                    </Image.GestureRecognizers>
+                                </Image>
+                                <Image
+                                    HeightRequest="40"
+                                    Source="refresh.png"
+                                    WidthRequest="40">
+                                    <Image.GestureRecognizers>
+                                        <TapGestureRecognizer CommandParameter="{Binding id}" Tapped="Patient_Slave" />
+                                    </Image.GestureRecognizers>
+                                </Image>
+                                <!-- <Image
+                                    HeightRequest="40"
+                                    Source="add.png"
+                                    WidthRequest="40">
+                                    <Image.GestureRecognizers>
+                                        <TapGestureRecognizer CommandParameter="{Binding id}" Tapped="New_Request" />
+                                    </Image.GestureRecognizers>
+                                </Image>
+
+                                 <Image
+                                    HeightRequest="40"
+                                    Source="edit.png"
+                                    WidthRequest="40">
+                                    <Image.GestureRecognizers>
+                                        <TapGestureRecognizer CommandParameter="{Binding id}" Tapped="Patient_Update" />
+                                    </Image.GestureRecognizers>
+                                </Image>-->
+                            </StackLayout>
+                        </StackLayout>
+                        <Button
+                            Grid.Row="13"
+                            BackgroundColor="#00B2CA"
+                            Command="{Binding NewRequest}"
+                            CornerRadius="25"
+                            HorizontalOptions="Center"
+                            Text="{i18n:Translate NewRequest}"
+                            TextColor="#090C9B"
+                            WidthRequest="200" />
+                    </Grid>
+                </StackLayout>
+            </Frame>
+        </ScrollView>
+    </StackLayout>
+</pages:PopupPage>

@@ -1,0 +1,400 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="XamarinApplication.Views.PatientRolePage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:custom="clr-namespace:XamarinApplication"
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:i18n="clr-namespace:XamarinApplication.Helpers"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:pv="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+    xmlns:sync="clr-namespace:Syncfusion.ListView.XForms;assembly=Syncfusion.SfListView.XForms"
+    Title="{i18n:Translate Patient}"
+    mc:Ignorable="d">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+
+            <Color x:Key="BackgroundColor">#9A989A</Color>
+            <Color x:Key="CellBackgroundColor">#2E249E</Color>
+            <Color x:Key="SwipeItemTextColor">#FFECCB</Color>
+            <Color x:Key="SwipeItemBackgroundColor">#FE744D</Color>
+            <Color x:Key="TitleColor">#55A1FA</Color>
+            <Color x:Key="SubTitleColor">#FFFFFF</Color>
+
+            <Style x:Key="TitleStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="24" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="Margin" Value="0, 60, 0, 0" />
+            </Style>
+
+            <Style x:Key="FrameStyle" TargetType="Frame">
+                <Setter Property="BackgroundColor" Value="{StaticResource CellBackgroundColor}" />
+                <Setter Property="CornerRadius" Value="12" />
+                <Setter Property="HasShadow" Value="False" />
+                <Setter Property="Padding" Value="12" />
+                <Setter Property="Margin" Value="0, 12, 0, 0" />
+            </Style>
+
+            <Style x:Key="TierStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="12" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="TextColor" Value="{StaticResource TitleColor}" />
+                <Setter Property="Margin" Value="6, 18, 0, 0" />
+            </Style>
+
+            <Style x:Key="NameStyle" TargetType="Label">
+                <Setter Property="TextColor" Value="{StaticResource SubTitleColor}" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="FontSize" Value="22" />
+                <Setter Property="Margin" Value="6, 0, 6, 6" />
+            </Style>
+            <Style x:Key="UrlStyle" TargetType="Label">
+                <Setter Property="TextColor" Value="{StaticResource SubTitleColor}" />
+                <Setter Property="FontAttributes" Value="None" />
+                <Setter Property="FontSize" Value="15" />
+                <Setter Property="Margin" Value="6, 0, 6, 6" />
+            </Style>
+
+            <Style x:Key="CategoryStyle" TargetType="Image">
+                <Setter Property="Opacity" Value="0.75" />
+                <Setter Property="Aspect" Value="AspectFit" />
+                <Setter Property="Margin" Value="0, 0, 100, 0" />
+            </Style>
+
+            <Style x:Key="SwipeItemBorderStyle" TargetType="BoxView">
+                <!-- <Setter Property="BackgroundColor" Value="{StaticResource SwipeItemBackgroundColor}" />-->
+                <Setter Property="CornerRadius" Value="0, 12, 0, 12" />
+                <Setter Property="Margin" Value="0, 12, 0, 0" />
+            </Style>
+
+            <Style x:Key="SwipeItemIconStyle" TargetType="Image">
+                <Setter Property="Aspect" Value="AspectFit" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="HeightRequest" Value="25" />
+                <Setter Property="WidthRequest" Value="30" />
+            </Style>
+
+            <Style x:Key="SwipeItemTextStyle" TargetType="Label">
+                <Setter Property="TextColor" Value="{StaticResource SwipeItemTextColor}" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="FontSize" Value="12" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="Margin" Value="0, 36, 0, 0" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <Grid
+        BackgroundColor="White"
+        HorizontalOptions="FillAndExpand"
+        RowSpacing="0"
+        VerticalOptions="FillAndExpand">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <custom:RoundedCornerView
+            Grid.Row="1"
+            Margin="10,1,10,1"
+            BorderWidth="1"
+            RoundedCornerRadius="25">
+            <SearchBar
+                BackgroundColor="#A0CCDA"
+                HeightRequest="46"
+                IsVisible="{Binding ShowHide}"
+                Placeholder="{i18n:Translate Search}"
+                SearchCommand="{Binding SearchCommand}"
+                Text="{Binding Filter, Mode=TwoWay}" />
+        </custom:RoundedCornerView>
+        <Label
+            x:Name="status"
+            Grid.Row="2"
+            FontSize="24"
+            HorizontalOptions="FillAndExpand"
+            HorizontalTextAlignment="Center"
+            IsVisible="{Binding IsVisibleStatus}"
+            Text="{i18n:Translate NoResult}"
+            TextColor="Black"
+            VerticalOptions="FillAndExpand"
+            VerticalTextAlignment="Center" />
+        <RefreshView
+            x:Name="refreshView"
+            Grid.Row="2"
+            Command="{Binding RefreshCommand}"
+            IsRefreshing="{Binding IsRefreshing, Mode=TwoWay}">
+            <sync:SfListView
+                Grid.Row="2"
+                AllowSwiping="True"
+                ItemSize="120"
+                ItemsSource="{Binding Patients}"
+                SelectionMode="None"
+                SwipeOffset="150">
+                <sync:SfListView.LayoutManager>
+                    <sync:LinearLayout />
+                </sync:SfListView.LayoutManager>
+                <sync:SfListView.LeftSwipeTemplate>
+                    <DataTemplate>
+                        <Grid BackgroundColor="{StaticResource BackgroundColor}" WidthRequest="120">
+                            <BoxView Style="{StaticResource SwipeItemBorderStyle}" />
+                            <StackLayout
+                                HorizontalOptions="CenterAndExpand"
+                                Orientation="Vertical"
+                                VerticalOptions="CenterAndExpand">
+                                <Image
+                                    HeightRequest="30"
+                                    Source="trash.png"
+                                    Style="{StaticResource SwipeItemIconStyle}"
+                                    WidthRequest="35">
+                                    <Image.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding DeleteCommand}" />
+                                    </Image.GestureRecognizers>
+                                </Image>
+                                <BoxView BackgroundColor="Gray" HeightRequest="1" />
+                                <Image
+                                    Margin="0,0,10,0"
+                                    HeightRequest="30"
+                                    Source="edit.png"
+                                    Style="{StaticResource SwipeItemIconStyle}"
+                                    WidthRequest="35">
+                                    <Image.GestureRecognizers>
+                                        <TapGestureRecognizer CommandParameter="{Binding id}" Tapped="Update_Patient" />
+                                    </Image.GestureRecognizers>
+                                </Image>
+                            </StackLayout>
+                        </Grid>
+                    </DataTemplate>
+                </sync:SfListView.LeftSwipeTemplate>
+                <sync:SfListView.RightSwipeTemplate>
+                    <DataTemplate>
+                        <Grid BackgroundColor="{StaticResource BackgroundColor}" WidthRequest="120">
+                            <BoxView Style="{StaticResource SwipeItemBorderStyle}" />
+                            <StackLayout
+                                HorizontalOptions="CenterAndExpand"
+                                Orientation="Vertical"
+                                VerticalOptions="CenterAndExpand">
+                                <Image
+                                    Margin="0,0,10,0"
+                                    HeightRequest="30"
+                                    Source="show.png"
+                                    Style="{StaticResource SwipeItemIconStyle}"
+                                    WidthRequest="35">
+                                    <Image.GestureRecognizers>
+                                        <TapGestureRecognizer CommandParameter="{Binding id}" Tapped="Patient_Detail" />
+                                    </Image.GestureRecognizers>
+                                </Image>
+                                <BoxView BackgroundColor="Gray" HeightRequest="1" />
+                                <Image
+                                    Margin="0,0,10,0"
+                                    HeightRequest="30"
+                                    Source="request.png"
+                                    Style="{StaticResource SwipeItemIconStyle}"
+                                    WidthRequest="35">
+                                    <Image.GestureRecognizers>
+                                        <TapGestureRecognizer CommandParameter="{Binding id}" Tapped="Request_Patient" />
+                                    </Image.GestureRecognizers>
+                                </Image>
+                            </StackLayout>
+                        </Grid>
+                    </DataTemplate>
+                </sync:SfListView.RightSwipeTemplate>
+                <sync:SfListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <!--  <ViewCell.ContextActions>
+                                <MenuItem
+                                    Clicked="Patient_Detail"
+                                    CommandParameter="{Binding .}"
+                                    IconImageSource="show.png"
+                                    Text="{i18n:Translate Details}" />
+                                <MenuItem
+                                    Clicked="Event_Patient"
+                                    CommandParameter="{Binding .}"
+                                    IconImageSource="event.png"
+                                    Text="Event" />
+                                <MenuItem
+                                    Clicked="Request_Patient"
+                                    CommandParameter="{Binding .}"
+                                    IconImageSource="request.png"
+                                    Text="{i18n:Translate Requests}" />
+                                <MenuItem
+                                    Clicked="Update_Patient"
+                                    CommandParameter="{Binding .}"
+                                    IconImageSource="edit.png"
+                                    Text="{i18n:Translate Update}" />
+                                <MenuItem
+                                    Command="{Binding DeleteCommand}"
+                                    IconImageSource="trash.png"
+                                    IsDestructive="true"
+                                    Text="{i18n:Translate Delete}" />
+                            </ViewCell.ContextActions>-->
+                            <custom:RoundedCornerView
+                                Margin="3"
+                                BorderColor="#E0E2DB"
+                                BorderWidth="1"
+                                RoundedCornerRadius="20">
+                                <Grid BackgroundColor="#E0E2DB">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <StackLayout
+                                        Grid.Column="1"
+                                        Margin="5"
+                                        VerticalOptions="Center">
+                                        <StackLayout Orientation="Horizontal">
+
+                                            <StackLayout
+                                                HorizontalOptions="Center"
+                                                Orientation="Vertical"
+                                                VerticalOptions="Center">
+                                                <Image
+                                                    HeightRequest="50"
+                                                    Source="scientist.png"
+                                                    WidthRequest="50" />
+                                            </StackLayout>
+                                            <StackLayout Padding="4,0,0,0" Orientation="Vertical">
+                                                <Label
+                                                    FontAttributes="Bold"
+                                                    FontSize="Small"
+                                                    Text="{Binding fiscalCode}"
+                                                    TextColor="#191716" />
+                                                <StackLayout Orientation="Horizontal">
+                                                    <Label
+                                                        FontAttributes="Bold"
+                                                        FontSize="Small"
+                                                        Text="{Binding firstName}"
+                                                        TextColor="#1d3557" />
+                                                    <Label
+                                                        FontAttributes="Bold"
+                                                        FontSize="Small"
+                                                        Text="{Binding lastName}"
+                                                        TextColor="#1d3557" />
+                                                </StackLayout>
+                                                <Label
+                                                    FontAttributes="Bold"
+                                                    FontSize="Small"
+                                                    Text="{Binding birthDate}"
+                                                    TextColor="Red" />
+                                            </StackLayout>
+                                        </StackLayout>
+                                    </StackLayout>
+                                </Grid>
+                            </custom:RoundedCornerView>
+                        </ViewCell>
+                    </DataTemplate>
+                </sync:SfListView.ItemTemplate>
+            </sync:SfListView>
+        </RefreshView>
+        <!--  menu items
+        <StackLayout
+            x:Name="menuitems"
+            Grid.Row="2"
+            HorizontalOptions="End"
+            InputTransparent="false"
+            IsVisible="true"
+            VerticalOptions="End">
+            <StackLayout.Margin>
+                <OnPlatform x:TypeArguments="Thickness">
+                    <On Platform="iOS">0,20,20,80</On>
+                    <On Platform="Android">0,20,20,50</On>
+                </OnPlatform>
+            </StackLayout.Margin>
+
+            <Frame
+                Margin="0"
+                Padding="0"
+                BackgroundColor="Transparent"
+                CornerRadius="20"
+                HasShadow="False"
+                HorizontalOptions="End"
+                VerticalOptions="Start"
+                WidthRequest="250">
+                <StackLayout>
+                    <Frame
+                        Margin="0"
+                        Padding="0"
+                        BackgroundColor="White"
+                        HeightRequest="50"
+                        HorizontalOptions="End"
+                        WidthRequest="50">
+                        <Frame.CornerRadius>
+                            <OnPlatform x:TypeArguments="x:Single">
+                                <On Platform="iOS" Value="30" />
+                                <On Platform="Android" Value="40" />
+                            </OnPlatform>
+                        </Frame.CornerRadius>
+                        <Image
+                            x:Name="menu"
+                            Margin="0,0,5,0"
+                            HeightRequest="50"
+                            HorizontalOptions="End"
+                            Source="add_black.png"
+                            WidthRequest=" 40">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="Add_Patient" />
+                            </Image.GestureRecognizers>
+                        </Image>
+                    </Frame>
+                </StackLayout>
+            </Frame>
+        </StackLayout>-->
+        <!--  menu items  -->
+        <pv:PancakeView
+            Grid.Row="2"
+            Margin="30"
+            Padding="15"
+            CornerRadius="40"
+            HorizontalOptions="End"
+            VerticalOptions="End">
+            <pv:PancakeView.BackgroundGradientStops>
+                <pv:GradientStopCollection>
+                    <pv:GradientStop Offset="0" Color="LightBlue" />
+                    <pv:GradientStop Offset="1" Color="SlateBlue" />
+                </pv:GradientStopCollection>
+            </pv:PancakeView.BackgroundGradientStops>
+            <Expander
+                HorizontalOptions="Start"
+                Rotation="180"
+                VerticalOptions="End">
+                <Expander.Header>
+                    <Image
+                        HeightRequest="30"
+                        Rotation="180"
+                        Source="add_white.png"
+                        WidthRequest="30">
+                        <Image.Triggers>
+                            <DataTrigger
+                                Binding="{Binding Source={RelativeSource AncestorType={x:Type Expander}}, Path=IsExpanded}"
+                                TargetType="Image"
+                                Value="True">
+                                <Setter Property="Source" Value="closee.png" />
+                            </DataTrigger>
+                        </Image.Triggers>
+                    </Image>
+                </Expander.Header>
+                <StackLayout Margin="0,20" Spacing="30">
+                    <ImageButton
+                        BackgroundColor="Transparent"
+                        Clicked="Add_Patient"
+                        HeightRequest="30"
+                        Rotation="180"
+                        Source="add_white.png"
+                        WidthRequest="30" />
+                    <ImageButton
+                        BackgroundColor="Transparent"
+                        Command="{Binding SearchPopup}"
+                        HeightRequest="30"
+                        Rotation="180"
+                        Source="ic_search_white_24dp.png"
+                        WidthRequest="30" />
+                </StackLayout>
+            </Expander>
+        </pv:PancakeView>
+
+    </Grid>
+</ContentPage>

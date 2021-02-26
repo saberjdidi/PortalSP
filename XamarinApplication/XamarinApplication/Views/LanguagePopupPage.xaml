@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:PopupPage
+    x:Class="XamarinApplication.Views.LanguagePopupPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:animations="clr-namespace:Rg.Plugins.Popup.Animations;assembly=Rg.Plugins.Popup"
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:i18n="clr-namespace:XamarinApplication.Helpers"
+    xmlns:inputLayout="clr-namespace:Syncfusion.XForms.TextInputLayout;assembly=Syncfusion.Core.XForms"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+    mc:Ignorable="d">
+    <!--  You can set an animation in the xaml file or in the csharp code behind  -->
+    <pages:PopupPage.Animation>
+        <animations:ScaleAnimation
+            DurationIn="400"
+            DurationOut="300"
+            EasingIn="SinOut"
+            EasingOut="SinIn"
+            HasBackgroundAnimation="True"
+            PositionIn="Center"
+            PositionOut="Center"
+            ScaleIn="1.2"
+            ScaleOut="0.8" />
+    </pages:PopupPage.Animation>
+
+    <StackLayout
+        Padding="20,20,20,20"
+        HorizontalOptions="Center"
+        VerticalOptions="Center">
+        <Frame
+            Margin="5"
+            BackgroundColor="#FDF6E6"
+            BorderColor="#FDF6E6"
+            CornerRadius="10"
+            HasShadow="true">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <StackLayout
+                    Grid.Row="0"
+                    HorizontalOptions="CenterAndExpand"
+                    Orientation="Horizontal">
+                    <Label Text="Choose Language" />
+                </StackLayout>
+                <StackLayout
+                    Grid.Row="1"
+                    HorizontalOptions="CenterAndExpand"
+                    Orientation="Horizontal">
+                    <StackLayout HorizontalOptions="CenterAndExpand" Orientation="Horizontal">
+                        <Image
+                            HeightRequest="40"
+                            Source="language.png"
+                            WidthRequest="40" />
+                        <inputLayout:SfTextInputLayout
+                            ContainerBackgroundColor="#E6EEF9"
+                            ContainerType="Outlined"
+                            FocusedColor="#0450C2"
+                            Hint="{i18n:Translate Language}"
+                            OutlineCornerRadius="20"
+                            UnfocusedColor="#B29DB7">
+                            <Picker
+                                Title="--Language--"
+                                ItemDisplayBinding="{Binding Value}"
+                                ItemsSource="{Binding CitiesList}"
+                                SelectedItem="{Binding SelectedCity}" />
+                        </inputLayout:SfTextInputLayout>
+                    </StackLayout>
+
+                </StackLayout>
+                <StackLayout Grid.Row="2" Padding="30,0,0,0">
+                    <Button
+                        BackgroundColor="#B29DB7"
+                        Clicked="Close_Popup_Language"
+                        CornerRadius="30"
+                        HorizontalOptions="CenterAndExpand"
+                        Text="OK"
+                        TextColor="White"
+                        WidthRequest="80" />
+
+                </StackLayout>
+
+            </Grid>
+        </Frame>
+    </StackLayout>
+</pages:PopupPage>

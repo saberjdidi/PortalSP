@@ -1,0 +1,277 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="XamarinApplication.Views.RequestsPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converter="clr-namespace:XamarinApplication.Converters;assembly=XamarinApplication"
+    xmlns:custom="clr-namespace:XamarinApplication;assembly=XamarinApplication"
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:extended="clr-namespace:Xamarin.Forms.Extended;assembly=Xamarin.Forms.Extended.InfiniteScrolling"
+    xmlns:i18n="clr-namespace:XamarinApplication.Helpers"
+    xmlns:local="clr-namespace:XamarinApplication.Converters;assembly=XamarinApplication"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sync="clr-namespace:Syncfusion.ListView.XForms;assembly=Syncfusion.SfListView.XForms"
+    xmlns:viewModels="clr-namespace:XamarinApplication.ViewModels"
+    Title="{i18n:Translate Request}"
+    mc:Ignorable="d">
+    <!--<ContentPage.BindingContext>
+        <viewModels:RequestsViewModel />
+    </ContentPage.BindingContext>-->
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:BackgroundColorConverter x:Key="BackgroundStatusConverter" />
+            <local:StringStatusConverter x:Key="StringStatusEnumConverter" />
+            <local:VisibilityConverter x:Key="visibilityConverter" />
+            <local:ImageConverter x:Key="ImageConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Command="{Binding SearchPopup}" IconImageSource="ic_search_white_24dp" />
+    </ContentPage.ToolbarItems>
+    <StackLayout Padding="5">
+        <Label
+            x:Name="label"
+            FontSize="22"
+            HorizontalOptions="FillAndExpand"
+            HorizontalTextAlignment="Center"
+            IsVisible="{Binding IsVisible}"
+            Text="{i18n:Translate NoResult}"
+            VerticalOptions="FillAndExpand"
+            VerticalTextAlignment="Center" />
+        <ListView
+            HasUnevenRows="true"
+            IsPullToRefreshEnabled="true"
+            IsRefreshing="{Binding IsRefreshing, Mode=TwoWay}"
+            IsVisible="{Binding Path=IsVisible, Converter={StaticResource visibilityConverter}}"
+            ItemAppearing="ListView_ItemAppearing"
+            ItemsSource="{Binding Requests}"
+            RefreshCommand="{Binding RefreshCommand}"
+            SeparatorVisibility="None">
+            <ListView.Behaviors>
+                <extended:InfiniteScrollBehavior IsLoadingMore="{Binding IsBusy}" />
+            </ListView.Behaviors>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <ViewCell.ContextActions>
+                            <MenuItem
+                                Clicked="Request_Detail"
+                                CommandParameter="{Binding .}"
+                                IconImageSource="show.png"
+                                Text="{i18n:Translate Details}" />
+                            <MenuItem
+                                Clicked="Delete_Request"
+                                CommandParameter="{Binding .}"
+                                IconImageSource="trash.png"
+                                Text="{i18n:Translate Delete}" />
+                            <MenuItem
+                                Clicked="Update_Request"
+                                CommandParameter="{Binding .}"
+                                IconImageSource="edit.png"
+                                Text="{i18n:Translate Update}" />
+                            <MenuItem
+                                Clicked="Request_Exam"
+                                CommandParameter="{Binding .}"
+                                Text="{i18n:Translate RequestExam}" />
+                            <MenuItem
+                                Clicked="Print_Acceptation"
+                                CommandParameter="{Binding .}"
+                                Text="{i18n:Translate PrintAcceptation}" />
+                            <MenuItem
+                                Clicked="Note_Patient"
+                                CommandParameter="{Binding .}"
+                                Text="{i18n:Translate NotePatient}" />
+                            <MenuItem
+                                Clicked="Preliminary_Report"
+                                CommandParameter="{Binding .}"
+                                Text="{i18n:Translate Report}" />
+                            <MenuItem
+                                Clicked="Biological_Material"
+                                CommandParameter="{Binding .}"
+                                Text="{i18n:Translate BiologicalMaterials}" />
+                        </ViewCell.ContextActions>
+                        <custom:RoundedCornerView
+                            Margin="3"
+                            BorderColor="#E0E2DB"
+                            BorderWidth="1"
+                            RoundedCornerRadius="20">
+                            <Grid BackgroundColor="#E0E2DB">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <StackLayout Margin="5" VerticalOptions="Center">
+                                    <StackLayout Orientation="Horizontal">
+
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="70" />
+                                            </Grid.ColumnDefinitions>
+                                            <StackLayout
+                                                Grid.Column="0"
+                                                HorizontalOptions="Center"
+                                                Orientation="Vertical"
+                                                VerticalOptions="Center">
+                                                <Frame
+                                                    BackgroundColor="{Binding status.name, Converter={StaticResource BackgroundStatusConverter}}"
+                                                    CornerRadius="50"
+                                                    HeightRequest="20"
+                                                    VerticalOptions="Center"
+                                                    WidthRequest="22">
+                                                    <Image
+                                                        HeightRequest="20"
+                                                        HorizontalOptions="FillAndExpand"
+                                                        Source="{Binding status.name, Converter={StaticResource ImageConverter}}"
+                                                        VerticalOptions="FillAndExpand"
+                                                        WidthRequest="20" />
+                                                </Frame>
+                                                <Label
+                                                    FontAttributes="Bold"
+                                                    FontSize="Micro"
+                                                    Text="{Binding status.name, Converter={StaticResource StringStatusEnumConverter}}"
+                                                    TextColor="#5A5A66" />
+                                            </StackLayout>
+                                        </Grid>
+                                        <StackLayout
+                                            Grid.Column="1"
+                                            Padding="4,0,0,0"
+                                            Orientation="Vertical">
+                                            <Label
+                                                FontAttributes="Bold"
+                                                FontSize="Small"
+                                                Text="{Binding code}"
+                                                TextColor="#191716" />
+                                            <Label
+                                                FontSize="Small"
+                                                Text="{Binding patient.fullName}"
+                                                TextColor="#191716" />
+                                            <Label
+                                                FontAttributes="Bold"
+                                                FontSize="Small"
+                                                Text="{Binding branch.name}"
+                                                TextColor="#191716" />
+                                            <Label
+                                                FontAttributes="Bold"
+                                                FontSize="Small"
+                                                Text="{Binding checkDate}"
+                                                TextColor="Red" />
+                                        </StackLayout>
+                                    </StackLayout>
+                                </StackLayout>
+                            </Grid>
+                        </custom:RoundedCornerView>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            <ListView.Footer>
+                <Grid Padding="6" IsVisible="{Binding IsBusy}">
+                    <Grid.Triggers>
+                        <Trigger TargetType="Grid" Property="IsVisible" Value="False">
+                            <Setter Property="HeightRequest" Value="0" />
+                        </Trigger>
+                    </Grid.Triggers>
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="20"
+                        HorizontalOptions="Center"
+                        Text="Loading..."
+                        TextColor="#246EB9"
+                        VerticalOptions="Center" />
+                </Grid>
+            </ListView.Footer>
+        </ListView>
+
+        <!--  <RefreshView Command="{Binding RefreshCommand}" IsRefreshing="{Binding IsRefreshing}">
+            <sync:SfListView
+                AllowSwiping="True"
+                IsVisible="{Binding Path=IsVisible, Converter={StaticResource visibilityConverter}}"
+                ItemAppearing="ListView_ItemAppearing"
+                ItemSize="160"
+                ItemsSource="{Binding Requests}"
+                SelectionMode="None">
+                <sync:SfListView.LayoutManager>
+                    <sync:LinearLayout />
+                </sync:SfListView.LayoutManager>
+                <sync:SfListView.Behaviors>
+                    <extended:InfiniteScrollBehavior IsLoadingMore="{Binding IsBusy}" />
+                </sync:SfListView.Behaviors>
+                <sync:SfListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <custom:RoundedCornerView
+                                Margin="3"
+                                BorderColor="#E0E2DB"
+                                BorderWidth="1"
+                                RoundedCornerRadius="20">
+                                <Grid BackgroundColor="#E0E2DB">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <StackLayout Margin="5" VerticalOptions="Center">
+                                        <StackLayout Orientation="Horizontal">
+
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="70" />
+                                                </Grid.ColumnDefinitions>
+                                                <StackLayout
+                                                    Grid.Column="0"
+                                                    HorizontalOptions="Center"
+                                                    Orientation="Vertical"
+                                                    VerticalOptions="Center">
+                                                    <Frame
+                                                        BackgroundColor="{Binding status.name, Converter={StaticResource BackgroundStatusConverter}}"
+                                                        CornerRadius="50"
+                                                        HeightRequest="20"
+                                                        VerticalOptions="Center"
+                                                        WidthRequest="22">
+                                                        <Image
+                                                            HeightRequest="20"
+                                                            HorizontalOptions="FillAndExpand"
+                                                            Source="{Binding status.name, Converter={StaticResource ImageConverter}}"
+                                                            VerticalOptions="FillAndExpand"
+                                                            WidthRequest="20" />
+                                                    </Frame>
+                                                    <Label
+                                                        FontAttributes="Bold"
+                                                        FontSize="Micro"
+                                                        Text="{Binding status.name, Converter={StaticResource StringStatusEnumConverter}}"
+                                                        TextColor="#5A5A66" />
+                                                </StackLayout>
+                                            </Grid>
+                                            <StackLayout
+                                                Grid.Column="1"
+                                                Padding="4,0,0,0"
+                                                Orientation="Vertical">
+                                                <Label
+                                                    FontAttributes="Bold"
+                                                    FontSize="Small"
+                                                    Text="{Binding code}"
+                                                    TextColor="#191716" />
+                                                <Label
+                                                    FontSize="Small"
+                                                    Text="{Binding patient.fullName}"
+                                                    TextColor="#191716" />
+                                                <Label
+                                                    FontAttributes="Bold"
+                                                    FontSize="Small"
+                                                    Text="{Binding branch.name}"
+                                                    TextColor="#191716" />
+                                                <Label
+                                                    FontAttributes="Bold"
+                                                    FontSize="Small"
+                                                    Text="{Binding checkDate}"
+                                                    TextColor="Red" />
+                                            </StackLayout>
+                                        </StackLayout>
+                                    </StackLayout>
+                                </Grid>
+                            </custom:RoundedCornerView>
+                        </Grid>
+                    </DataTemplate>
+                </sync:SfListView.ItemTemplate>
+            </sync:SfListView>
+        </RefreshView>-->
+    </StackLayout>
+</ContentPage>

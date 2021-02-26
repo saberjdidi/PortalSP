@@ -1,0 +1,286 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:PopupPage
+    x:Class="XamarinApplication.Views.RequestDetailPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:animations="clr-namespace:Rg.Plugins.Popup.Animations;assembly=Rg.Plugins.Popup"
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:i18n="clr-namespace:XamarinApplication.Helpers"
+    xmlns:local="clr-namespace:XamarinApplication.Converters"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+    mc:Ignorable="d">
+    <pages:PopupPage.Animation>
+        <animations:ScaleAnimation
+            DurationIn="400"
+            DurationOut="300"
+            EasingIn="SinOut"
+            EasingOut="SinIn"
+            HasBackgroundAnimation="True"
+            PositionIn="Center"
+            PositionOut="Center"
+            ScaleIn="1.2"
+            ScaleOut="0.8" />
+    </pages:PopupPage.Animation>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:BackgroundColorConverter x:Key="BackgroundStatusConverter" />
+            <local:StringStatusConverter x:Key="StringStatusEnumConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <StackLayout
+        Padding="10,10,10,10"
+        HorizontalOptions="Center"
+        VerticalOptions="Center">
+        <ScrollView Orientation="Vertical">
+            <Frame
+                Margin="2"
+                BackgroundColor="{Binding Request.status.name, Converter={StaticResource BackgroundStatusConverter}}"
+                HasShadow="true">
+
+                <StackLayout>
+                    <StackLayout HorizontalOptions="End" VerticalOptions="End">
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="Close_Popup_Request" />
+                        </StackLayout.GestureRecognizers>
+                        <Image
+                            HeightRequest="45"
+                            Source="close.png"
+                            WidthRequest="45" />
+                    </StackLayout>
+                    <Label
+                        Margin="5,5,5,10"
+                        FontAttributes="Bold"
+                        FontSize="Large"
+                        HorizontalOptions="Center"
+                        Text="{i18n:Translate RequestHistoric}"
+                        TextColor="Black" />
+                    <RefreshView
+                        x:Name="contentPage"
+                        InputTransparent="false"
+                        IsRefreshing="{Binding IsRefreshing}">
+                        <Grid Margin="0,-15,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <!--  <Label
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            FontAttributes="Bold"
+                            Text="{i18n:Translate Status}"
+                            TextColor="#118AB2" />
+                        <StackLayout
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Orientation="Horizontal">
+                            <Label Text="{Binding Request.status.name, Converter={StaticResource StringStatusEnumConverter}}" TextColor="Black" />
+                            <Frame
+                                Margin="60,0,0,0"
+                                BackgroundColor="{Binding Request.status.name, Converter={StaticResource BackgroundStatusConverter}}"
+                                HeightRequest="15"
+                                VerticalOptions="Center"
+                                WidthRequest="15">
+                                <Image
+                                    HeightRequest="15"
+                                    HorizontalOptions="FillAndExpand"
+                                    Source="flag.png"
+                                    VerticalOptions="FillAndExpand"
+                                    WidthRequest="15" />
+                            </Frame>
+                        </StackLayout>-->
+
+                            <Label
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                Margin="0,-15,0,0"
+                                FontAttributes="Bold"
+                                Text="{i18n:Translate Code}"
+                                TextColor="#118AB2" />
+                            <Label
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                Margin="0,-15,0,0"
+                                Text="{Binding Request.code}"
+                                TextColor="Black" />
+                            <Label
+                                Grid.Row="2"
+                                Grid.Column="0"
+                                Margin="0,-15,0,0"
+                                FontAttributes="Bold"
+                                Text="{i18n:Translate Branch}"
+                                TextColor="#118AB2" />
+                            <Label
+                                Grid.Row="2"
+                                Grid.Column="1"
+                                Margin="0,-15,0,0"
+                                Text="{Binding Request.branch.name}"
+                                TextColor="Black" />
+                            <Label
+                                Grid.Row="3"
+                                Grid.Column="0"
+                                Margin="0,-15,0,0"
+                                FontAttributes="Bold"
+                                Text="{i18n:Translate Patient}"
+                                TextColor="#118AB2" />
+                            <Label
+                                Grid.Row="3"
+                                Grid.Column="1"
+                                Margin="0,-15,0,0"
+                                Text="{Binding Request.patient.fullName}"
+                                TextColor="Black" />
+
+                            <Label
+                                Grid.Row="4"
+                                Grid.Column="0"
+                                Margin="0,-15,0,0"
+                                FontAttributes="Bold"
+                                Text="{i18n:Translate Client}"
+                                TextColor="#118AB2" />
+                            <Label
+                                Grid.Row="4"
+                                Grid.Column="1"
+                                Margin="0,-15,0,0"
+                                Text="{Binding Request.client.companyName}"
+                                TextColor="Black" />
+                            <Label
+                                Grid.Row="5"
+                                Grid.Column="0"
+                                Margin="0,-15,0,0"
+                                FontAttributes="Bold"
+                                Text="{i18n:Translate Nomenclature}"
+                                TextColor="#118AB2" />
+                            <Label
+                                Grid.Row="5"
+                                Grid.Column="1"
+                                Margin="0,-15,0,0"
+                                Text="{Binding Request.nomenclatura.descrEsameProf}"
+                                TextColor="Black" />
+                            <Label
+                                Grid.Row="6"
+                                Grid.Column="0"
+                                Margin="0,-15,0,0"
+                                FontAttributes="Bold"
+                                Text="{i18n:Translate CreatedBy}"
+                                TextColor="#118AB2" />
+                            <StackLayout
+                                Grid.Row="6"
+                                Grid.Column="1"
+                                Margin="0,-15,0,0"
+                                Orientation="Horizontal">
+                                <Label Text="{Binding Request.createBy.firstName}" TextColor="Black" />
+                                <Label Text="{Binding Request.createBy.lastName}" TextColor="Black" />
+                            </StackLayout>
+                            <Label
+                                Grid.Row="7"
+                                Grid.Column="0"
+                                Margin="0,-15,0,0"
+                                FontAttributes="Bold"
+                                Text="{i18n:Translate CreationDate}"
+                                TextColor="#118AB2" />
+                            <Label
+                                Grid.Row="7"
+                                Grid.Column="1"
+                                Margin="0,-15,0,0"
+                                Text="{Binding Request.creationDate}"
+                                TextColor="Black" />
+                            <Label
+                                Grid.Row="8"
+                                Grid.Column="0"
+                                Margin="0,-15,0,0"
+                                FontAttributes="Bold"
+                                Text="{i18n:Translate ReportingTime}"
+                                TextColor="#118AB2" />
+                            <Label
+                                Grid.Row="8"
+                                Grid.Column="1"
+                                Margin="0,-15,0,0"
+                                Text="{Binding Request.executionDate}"
+                                TextColor="Black" />
+                            <Label
+                                Grid.Row="9"
+                                Grid.Column="0"
+                                Margin="0,-15,0,0"
+                                FontAttributes="Bold"
+                                Text="{i18n:Translate Doctor}"
+                                TextColor="#118AB2" />
+                            <StackLayout
+                                Grid.Row="9"
+                                Grid.Column="1"
+                                Margin="0,-15,0,0"
+                                Orientation="Horizontal">
+                                <Label Text="{Binding Request.doctorNoRef.firstName}" TextColor="Black" />
+                                <Label Text="{Binding Request.doctorNoRef.lastName}" TextColor="Black" />
+                            </StackLayout>
+                            <Label
+                                Grid.Row="10"
+                                Grid.Column="0"
+                                Margin="0,-15,0,0"
+                                FontAttributes="Bold"
+                                Text="{i18n:Translate SamplingDate}"
+                                TextColor="#118AB2" />
+                            <Label
+                                Grid.Row="10"
+                                Grid.Column="1"
+                                Margin="0,-15,0,0"
+                                Text="{Binding Request.samplingDate}"
+                                TextColor="Black" />
+                            <Label
+                                Grid.Row="11"
+                                Grid.Column="0"
+                                Margin="0,-15,0,0"
+                                FontAttributes="Bold"
+                                Text="{i18n:Translate RequestCatalog}"
+                                TextColor="#118AB2" />
+                            <Label
+                                Grid.Row="11"
+                                Grid.Column="1"
+                                Margin="0,-15,0,0"
+                                Text="{Binding Request.requestCatalog.description}"
+                                TextColor="Black" />
+                            <Label
+                                Grid.Row="12"
+                                Grid.Column="0"
+                                Margin="0,-15,0,0"
+                                FontAttributes="Bold"
+                                Text="{i18n:Translate Room}"
+                                TextColor="#118AB2" />
+                            <Label
+                                Grid.Row="12"
+                                Grid.Column="1"
+                                Margin="0,-15,0,0"
+                                Text="{Binding Request.room.description}"
+                                TextColor="Black" />
+                            <Label
+                                Grid.Row="13"
+                                Grid.Column="0"
+                                Margin="0,-15,0,0"
+                                FontAttributes="Bold"
+                                Text="{i18n:Translate Instrument}"
+                                TextColor="#118AB2" />
+                            <Label
+                                Grid.Row="13"
+                                Grid.Column="1"
+                                Margin="0,-15,0,0"
+                                Text="{Binding Request.instrument.description}"
+                                TextColor="Black" />
+
+                            <!-- <StackLayout Grid.Row="12" VerticalOptions="FillAndExpand">
+                            <Button
+                                BackgroundColor="#118AB2"
+                                Clicked="Close_Popup_Request"
+                                CornerRadius="10"
+                                HorizontalOptions="CenterAndExpand"
+                                ImageSource="icon_back.png"
+                                Text="Back"
+                                TextColor="#090C9B"
+                                WidthRequest="140" />
+                        </StackLayout>-->
+
+                        </Grid>
+                    </RefreshView>
+                </StackLayout>
+            </Frame>
+        </ScrollView>
+    </StackLayout>
+</pages:PopupPage>

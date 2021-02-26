@@ -1,0 +1,267 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="XamarinApplication.Views.ServiceDocumentPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:custom="clr-namespace:XamarinApplication"
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:i18n="clr-namespace:XamarinApplication.Helpers"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sync="clr-namespace:Syncfusion.ListView.XForms;assembly=Syncfusion.SfListView.XForms"
+    Title="{i18n:Translate ServiceDocument}"
+    mc:Ignorable="d">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+            Command="{Binding OpenSearchBar}"
+            IconImageSource="ic_search_white_24dp"
+            Text="{Binding ShowHide}" />
+    </ContentPage.ToolbarItems>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+
+            <Color x:Key="BackgroundColor">#333EBD</Color>
+            <Color x:Key="CellBackgroundColor">#2E249E</Color>
+            <Color x:Key="SwipeItemTextColor">#FFECCB</Color>
+            <Color x:Key="SwipeItemBackgroundColor">#FE744D</Color>
+            <Color x:Key="TitleColor">#55A1FA</Color>
+            <Color x:Key="SubTitleColor">#FFFFFF</Color>
+
+            <Style x:Key="TitleStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="24" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="Margin" Value="0, 60, 0, 0" />
+            </Style>
+
+            <Style x:Key="FrameStyle" TargetType="Frame">
+                <Setter Property="BackgroundColor" Value="{StaticResource CellBackgroundColor}" />
+                <Setter Property="CornerRadius" Value="12" />
+                <Setter Property="HasShadow" Value="False" />
+                <Setter Property="Padding" Value="12" />
+                <Setter Property="Margin" Value="0, 12, 0, 0" />
+            </Style>
+
+            <Style x:Key="TierStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="12" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="TextColor" Value="{StaticResource TitleColor}" />
+                <Setter Property="Margin" Value="6, 18, 0, 0" />
+            </Style>
+
+            <Style x:Key="NameStyle" TargetType="Label">
+                <Setter Property="TextColor" Value="{StaticResource SubTitleColor}" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="FontSize" Value="22" />
+                <Setter Property="Margin" Value="6, 0, 6, 6" />
+            </Style>
+            <Style x:Key="UrlStyle" TargetType="Label">
+                <Setter Property="TextColor" Value="{StaticResource SubTitleColor}" />
+                <Setter Property="FontAttributes" Value="None" />
+                <Setter Property="FontSize" Value="15" />
+                <Setter Property="Margin" Value="6, 0, 6, 6" />
+            </Style>
+
+            <Style x:Key="CategoryStyle" TargetType="Image">
+                <Setter Property="Opacity" Value="0.75" />
+                <Setter Property="Aspect" Value="AspectFit" />
+                <Setter Property="Margin" Value="0, 0, 100, 0" />
+            </Style>
+
+            <Style x:Key="SwipeItemBorderStyle" TargetType="BoxView">
+                <!-- <Setter Property="BackgroundColor" Value="{StaticResource SwipeItemBackgroundColor}" />-->
+                <Setter Property="CornerRadius" Value="0, 12, 0, 12" />
+                <Setter Property="Margin" Value="0, 12, 0, 0" />
+            </Style>
+
+            <Style x:Key="SwipeItemIconStyle" TargetType="Image">
+                <Setter Property="Aspect" Value="AspectFit" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="Margin" Value="30" />
+                <Setter Property="HeightRequest" Value="40" />
+                <Setter Property="WidthRequest" Value="40" />
+            </Style>
+
+            <Style x:Key="SwipeItemTextStyle" TargetType="Label">
+                <Setter Property="TextColor" Value="{StaticResource SwipeItemTextColor}" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="FontSize" Value="12" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="Margin" Value="0, 36, 0, 0" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <Grid
+            BackgroundColor="#246EB9"
+            HorizontalOptions="FillAndExpand"
+            RowSpacing="0"
+            VerticalOptions="FillAndExpand">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="45" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <custom:RoundedCornerView
+                Grid.Row="1"
+                Margin="25,0,25,0"
+                BorderWidth="1"
+                RoundedCornerRadius="25">
+                <SearchBar
+                    BackgroundColor="White"
+                    HeightRequest="46"
+                    IsVisible="{Binding ShowHide}"
+                    Placeholder="{i18n:Translate Search}"
+                    SearchCommand="{Binding SearchCommand}"
+                    Text="{Binding Filter, Mode=TwoWay}" />
+            </custom:RoundedCornerView>
+            <Label
+                Grid.Row="2"
+                FontSize="24"
+                HorizontalOptions="FillAndExpand"
+                HorizontalTextAlignment="Center"
+                IsVisible="{Binding IsVisibleStatus}"
+                Text="{i18n:Translate NoResult}"
+                TextColor="Black"
+                VerticalOptions="FillAndExpand"
+                VerticalTextAlignment="Center" />
+            <RefreshView
+                Grid.Row="2"
+                Command="{Binding RefreshCommand}"
+                IsRefreshing="{Binding IsRefreshing}">
+                <sync:SfListView
+                    Grid.Row="1"
+                    Margin="12,12,12,0"
+                    AllowSwiping="True"
+                    ItemSize="160"
+                    ItemsSource="{Binding ServiceDocuments}"
+                    SelectionMode="None">
+                    <sync:SfListView.LayoutManager>
+                        <sync:LinearLayout />
+                    </sync:SfListView.LayoutManager>
+                    <sync:SfListView.LeftSwipeTemplate>
+                        <DataTemplate>
+                            <Grid BackgroundColor="{StaticResource BackgroundColor}" WidthRequest="120">
+                                <BoxView Style="{StaticResource SwipeItemBorderStyle}" />
+                                <Image Source="edit.png" Style="{StaticResource SwipeItemIconStyle}">
+                                    <Image.GestureRecognizers>
+                                        <TapGestureRecognizer CommandParameter="{Binding id}" Tapped="Update_ServiceDocument" />
+                                    </Image.GestureRecognizers>
+                                </Image>
+                            </Grid>
+                        </DataTemplate>
+                    </sync:SfListView.LeftSwipeTemplate>
+                    <sync:SfListView.RightSwipeTemplate>
+                        <DataTemplate>
+                            <Grid BackgroundColor="{StaticResource BackgroundColor}" WidthRequest="120">
+                                <BoxView Style="{StaticResource SwipeItemBorderStyle}" />
+                                <Image Source="trash.png" Style="{StaticResource SwipeItemIconStyle}">
+                                    <Image.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding DeleteCommand}" />
+                                    </Image.GestureRecognizers>
+                                </Image>
+                                <!--  <Label Style="{StaticResource SwipeItemTextStyle}" Text="Delete" />-->
+                            </Grid>
+                        </DataTemplate>
+                    </sync:SfListView.RightSwipeTemplate>
+                    <sync:SfListView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Frame Style="{StaticResource FrameStyle}">
+                                    <Grid RowSpacing="0" VerticalOptions="Center">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="180" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+                                        <Label
+                                            Grid.Row="0"
+                                            Grid.Column="0"
+                                            Style="{StaticResource TierStyle}"
+                                            Text="{Binding code}" />
+                                        <Label
+                                            Grid.Row="1"
+                                            Grid.Column="0"
+                                            Style="{StaticResource NameStyle}"
+                                            Text="{Binding name}" />
+                                        <Label
+                                            Grid.Row="2"
+                                            Grid.Column="0"
+                                            Style="{StaticResource UrlStyle}"
+                                            Text="{Binding url}" />
+                                    </Grid>
+                                </Frame>
+                                <ScrollView HorizontalOptions="End" IsEnabled="False">
+                                    <Image
+                                        Aspect="AspectFill"
+                                        HeightRequest="150"
+                                        Source="bgImage"
+                                        WidthRequest="150" />
+                                </ScrollView>
+                            </Grid>
+                        </DataTemplate>
+                    </sync:SfListView.ItemTemplate>
+                </sync:SfListView>
+            </RefreshView>
+            <!--  menu items  -->
+            <StackLayout
+                x:Name="menuitems"
+                Grid.Row="2"
+                HorizontalOptions="End"
+                InputTransparent="false"
+                IsVisible="true"
+                VerticalOptions="End">
+                <StackLayout.Margin>
+                    <OnPlatform x:TypeArguments="Thickness">
+                        <On Platform="iOS">0,20,20,80</On>
+                        <On Platform="Android">0,20,20,50</On>
+                    </OnPlatform>
+                </StackLayout.Margin>
+                <!--  menu image  -->
+                <Frame
+                    Margin="0"
+                    Padding="0"
+                    BackgroundColor="Transparent"
+                    CornerRadius="20"
+                    HasShadow="False"
+                    HorizontalOptions="End"
+                    VerticalOptions="Start"
+                    WidthRequest="250">
+                    <StackLayout>
+                        <Frame
+                            Margin="0"
+                            Padding="0"
+                            BackgroundColor="White"
+                            HeightRequest="50"
+                            HorizontalOptions="End"
+                            WidthRequest="50">
+                            <Frame.CornerRadius>
+                                <OnPlatform x:TypeArguments="x:Single">
+                                    <On Platform="iOS" Value="30" />
+                                    <On Platform="Android" Value="40" />
+                                </OnPlatform>
+                            </Frame.CornerRadius>
+                            <Image
+                                x:Name="menu"
+                                Margin="0,0,5,0"
+                                HeightRequest="50"
+                                HorizontalOptions="End"
+                                Source="add_black.png"
+                                WidthRequest=" 40">
+                                <Image.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="Add_ServiceDocument" />
+                                </Image.GestureRecognizers>
+                            </Image>
+                        </Frame>
+                    </StackLayout>
+                </Frame>
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

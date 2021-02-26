@@ -1,0 +1,194 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="XamarinApplication.Views.LoginPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:button="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms"
+    xmlns:converters="clr-namespace:XamarinApplication.Validation"
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:ef="clr-namespace:XamarinApplication.Effects"
+    xmlns:gradient="clr-namespace:Syncfusion.XForms.Graphics;assembly=Syncfusion.Core.XForms"
+    xmlns:i18n="clr-namespace:XamarinApplication.Helpers"
+    xmlns:inputLayout="clr-namespace:Syncfusion.XForms.TextInputLayout;assembly=Syncfusion.Core.XForms"
+    xmlns:key="clr-namespace:XamarinApplication.Behavior"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModels="clr-namespace:XamarinApplication.ViewModels;assembly=XamarinApplication"
+    mc:Ignorable="d">
+    <ContentPage.BindingContext>
+        <viewModels:LoginViewModel />
+    </ContentPage.BindingContext>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:NotNullOrEmptyStringConverter x:Key="NotNullOrEmptyStringConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <Grid>
+            <gradient:SfGradientView>
+                <gradient:SfGradientView.BackgroundBrush>
+                    <gradient:SfLinearGradientBrush>
+                        <gradient:SfLinearGradientBrush.GradientStops>
+                            <gradient:SfGradientStop Offset="0.0" Color="#2F9BDF" />
+                            <gradient:SfGradientStop Offset="1.0" Color="#b8495c" />
+                        </gradient:SfLinearGradientBrush.GradientStops>
+                    </gradient:SfLinearGradientBrush>
+                </gradient:SfGradientView.BackgroundBrush>
+            </gradient:SfGradientView>
+            <ScrollView>
+
+                <StackLayout Margin="15,0,15,100" VerticalOptions="CenterAndExpand">
+
+
+                    <Image
+                        HeightRequest="150"
+                        Source="logo.png"
+                        WidthRequest="150" />
+                    <Frame
+                        Margin="5"
+                        BackgroundColor="#508CA4"
+                        BorderColor="#508CA4"
+                        CornerRadius="10"
+                        HasShadow="true">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <inputLayout:SfTextInputLayout
+                                Grid.Row="0"
+                                ContainerType="Outlined"
+                                FocusedColor="Blue"
+                                Hint="{i18n:Translate Username}"
+                                HorizontalOptions="CenterAndExpand"
+                                LeadingViewPosition="Inside"
+                                OutlineCornerRadius="10"
+                                UnfocusedColor="#F1FFFA">
+                                <key:CustomKeyEntry
+                                    x:Name="UserNameEntry"
+                                    FontSize="16"
+                                    Placeholder="Username"
+                                    ReturnType="Go"
+                                    Text="{Binding Username}"
+                                    TextColor="White"
+                                    WidthRequest="200" />
+                                <inputLayout:SfTextInputLayout.LeadingView>
+                                    <Image Source="person.png" />
+                                </inputLayout:SfTextInputLayout.LeadingView>
+                            </inputLayout:SfTextInputLayout>
+                            <Label
+                                Grid.Row="1"
+                                FontSize="Small"
+                                HorizontalTextAlignment="Center"
+                                IsVisible="False"
+                                Text="{i18n:Translate UsernameValidation}"
+                                TextColor="OrangeRed">
+                                <Label.Triggers>
+                                    <MultiTrigger TargetType="Label">
+                                        <MultiTrigger.Conditions>
+                                            <BindingCondition Binding="{Binding Source={x:Reference UserNameEntry}, Path=Text, Converter={StaticResource NotNullOrEmptyStringConverter}}" Value="False" />
+                                        </MultiTrigger.Conditions>
+                                        <Setter Property="IsVisible" Value="{Binding Value}" />
+                                    </MultiTrigger>
+                                </Label.Triggers>
+                            </Label>
+                            <inputLayout:SfTextInputLayout
+                                Grid.Row="2"
+                                ContainerType="Outlined"
+                                EnablePasswordVisibilityToggle="true"
+                                FocusedColor="Blue"
+                                Hint="{i18n:Translate Password}"
+                                HorizontalOptions="CenterAndExpand"
+                                LeadingViewPosition="Inside"
+                                OutlineCornerRadius="10"
+                                UnfocusedColor="#F1FFFA">
+                                <key:CustomKeyEntry
+                                    x:Name="PasswordEntry"
+                                    FontSize="16"
+                                    IsPassword="True"
+                                    Placeholder="Password"
+                                    ReturnType="Go"
+                                    Text="{Binding Password}"
+                                    TextColor="White"
+                                    WidthRequest="200" />
+                                <inputLayout:SfTextInputLayout.LeadingView>
+                                    <Image Source="password.png" />
+                                </inputLayout:SfTextInputLayout.LeadingView>
+                            </inputLayout:SfTextInputLayout>
+                            <Label
+                                Grid.Row="3"
+                                FontSize="Small"
+                                HorizontalTextAlignment="Center"
+                                IsVisible="False"
+                                Text="{i18n:Translate PasswordValidation}"
+                                TextColor="OrangeRed">
+                                <Label.Triggers>
+                                    <MultiTrigger TargetType="Label">
+                                        <MultiTrigger.Conditions>
+                                            <BindingCondition Binding="{Binding Source={x:Reference PasswordEntry}, Path=Text, Converter={StaticResource NotNullOrEmptyStringConverter}}" Value="False" />
+                                        </MultiTrigger.Conditions>
+                                        <Setter Property="IsVisible" Value="{Binding Value}" />
+                                    </MultiTrigger>
+                                </Label.Triggers>
+                            </Label>
+                            <StackLayout Grid.Row="4" HorizontalOptions="CenterAndExpand">
+                                <!-- <Button
+                                    BackgroundColor="#91AEC1"
+                                    Command="{Binding LoginCommand}"
+                                    CornerRadius="15"
+                                    HorizontalOptions="CenterAndExpand"
+                                    ImageSource="logout.png"
+                                    Text="Sign In"
+                                    TextColor="White"
+                                    WidthRequest="130" />-->
+                                <button:SfButton
+                                    Command="{Binding LoginCommand}"
+                                    CornerRadius="15"
+                                    FontAttributes="Bold"
+                                    HeightRequest="50"
+                                    Text="{i18n:Translate SignIn}"
+                                    WidthRequest="125">
+                                    <button:SfButton.BackgroundGradient>
+                                        <gradient:SfLinearGradientBrush>
+                                            <gradient:SfLinearGradientBrush.GradientStops>
+                                                <gradient:SfGradientStop Offset="0.0" Color="#2F9BDF" />
+                                                <gradient:SfGradientStop Offset="0.5" Color="#b8495c" />
+                                                <gradient:SfGradientStop Offset="1.0" Color="#FFB57B" />
+                                            </gradient:SfLinearGradientBrush.GradientStops>
+                                        </gradient:SfLinearGradientBrush>
+                                    </button:SfButton.BackgroundGradient>
+                                </button:SfButton>
+                            </StackLayout>
+                            <StackLayout
+                                Grid.Row="5"
+                                Margin="0,10,0,0"
+                                HorizontalOptions="End">
+                                <Label
+                                    FontAttributes="Bold"
+                                    FontFamily="Times New Roman"
+                                    FontSize="15"
+                                    Text="{i18n:Translate Forgotpassword}"
+                                    TextColor="White">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="Forgot_Password" />
+                                    </Label.GestureRecognizers>
+                                </Label>
+                            </StackLayout>
+                        </Grid>
+                    </Frame>
+                    <StackLayout HorizontalOptions="Center">
+                        <Label
+                            FontAttributes="Bold"
+                            FontFamily="Times New Roman"
+                            FontSize="14"
+                            Text="Portal-SP Ambulatorio ©"
+                            TextColor="White" />
+                    </StackLayout>
+                </StackLayout>
+            </ScrollView>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

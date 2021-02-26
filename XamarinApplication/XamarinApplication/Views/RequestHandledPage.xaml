@@ -1,0 +1,158 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="XamarinApplication.Views.RequestHandledPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:custom="clr-namespace:XamarinApplication"
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:i18n="clr-namespace:XamarinApplication.Helpers"
+    xmlns:local="clr-namespace:XamarinApplication.Converters"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="{i18n:Translate HandledRequest}"
+    mc:Ignorable="d">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:BackgroundColorConverter x:Key="BackgroundStatusConverter" />
+            <local:StringStatusConverter x:Key="StringStatusEnumConverter" />
+            <local:ImageConverter x:Key="ImageConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+            Command="{Binding OpenSearchBar}"
+            IconImageSource="ic_search_white_24dp"
+            Text="{Binding ShowHide}" />
+    </ContentPage.ToolbarItems>
+    <StackLayout Padding="5">
+        <custom:RoundedCornerView BorderWidth="1" RoundedCornerRadius="25">
+            <SearchBar
+                BackgroundColor="#A0CCDA"
+                HeightRequest="46"
+                IsVisible="{Binding ShowHide}"
+                Placeholder="{i18n:Translate Search}"
+                SearchCommand="{Binding SearchCommand}"
+                Text="{Binding Filter, Mode=TwoWay}" />
+        </custom:RoundedCornerView>
+        <Label
+            x:Name="status"
+            FontSize="24"
+            HorizontalOptions="FillAndExpand"
+            HorizontalTextAlignment="Center"
+            IsVisible="{Binding IsVisibleStatus}"
+            Text="{i18n:Translate NoResult}"
+            TextColor="Black"
+            VerticalOptions="FillAndExpand"
+            VerticalTextAlignment="Center" />
+        <ListView
+            HasUnevenRows="true"
+            HeightRequest="100"
+            IsPullToRefreshEnabled="true"
+            IsRefreshing="{Binding IsRefreshing, Mode=TwoWay}"
+            ItemsSource="{Binding Attachments}"
+            RefreshCommand="{Binding RefreshCommand}"
+            SelectionMode="None"
+            SeparatorVisibility="None">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <custom:RoundedCornerView
+                            Margin="3"
+                            BorderColor="#E0E2DB"
+                            BorderWidth="1"
+                            RoundedCornerRadius="20">
+                            <Grid BackgroundColor="#E0E2DB">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <StackLayout Margin="5" VerticalOptions="Center">
+                                    <StackLayout Orientation="Horizontal">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="70" />
+                                            </Grid.ColumnDefinitions>
+                                            <StackLayout
+                                                Grid.Column="0"
+                                                HorizontalOptions="Center"
+                                                Orientation="Vertical"
+                                                VerticalOptions="Center">
+                                                <custom:CustomListview
+                                                    HasUnevenRows="true"
+                                                    HeightRequest="70"
+                                                    ItemsSource="{Binding requests}"
+                                                    SelectionMode="None"
+                                                    SeparatorVisibility="None">
+                                                    <ListView.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <ViewCell>
+                                                                <Frame
+                                                                    BackgroundColor="{Binding status.name, Converter={StaticResource BackgroundStatusConverter}}"
+                                                                    CornerRadius="40"
+                                                                    HeightRequest="30"
+                                                                    VerticalOptions="Center"
+                                                                    WidthRequest="10">
+                                                                    <Image
+                                                                        HeightRequest="20"
+                                                                        HorizontalOptions="FillAndExpand"
+                                                                        Source="{Binding status.name, Converter={StaticResource ImageConverter}}"
+                                                                        VerticalOptions="FillAndExpand"
+                                                                        WidthRequest="20" />
+                                                                </Frame>
+                                                            </ViewCell>
+                                                        </DataTemplate>
+                                                    </ListView.ItemTemplate>
+                                                </custom:CustomListview>
+                                            </StackLayout>
+                                        </Grid>
+                                        <StackLayout
+                                            Grid.Column="1"
+                                            Padding="4,0,0,0"
+                                            Orientation="Vertical">
+                                            <custom:CustomListview
+                                                HasUnevenRows="true"
+                                                HeightRequest="80"
+                                                ItemsSource="{Binding requests}"
+                                                SelectionMode="None"
+                                                SeparatorVisibility="None">
+                                                <ListView.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <ViewCell>
+                                                            <StackLayout Orientation="Vertical">
+                                                                <Label
+                                                                    FontAttributes="Bold"
+                                                                    FontFamily="Arial, Helvetica, sans-serif"
+                                                                    FontSize="Small"
+                                                                    Text="{Binding code}"
+                                                                    TextColor="#FFFFFF" />
+                                                                <Label
+                                                                    FontAttributes="Bold"
+                                                                    FontFamily="Arial, Helvetica, sans-serif"
+                                                                    FontSize="Small"
+                                                                    Text="{Binding creationDate}"
+                                                                    TextColor="#FFFFFF" />
+                                                                <Label
+                                                                    FontAttributes="Bold"
+                                                                    FontSize="Small"
+                                                                    Text="{Binding client.companyName}"
+                                                                    TextColor="#191716" />
+                                                            </StackLayout>
+                                                        </ViewCell>
+                                                    </DataTemplate>
+                                                </ListView.ItemTemplate>
+                                            </custom:CustomListview>
+                                            <Label
+                                                FontAttributes="Bold"
+                                                FontSize="Small"
+                                                Text="{Binding patient.fullName}"
+                                                TextColor="Red" />
+                                        </StackLayout>
+                                    </StackLayout>
+                                </StackLayout>
+                            </Grid>
+                        </custom:RoundedCornerView>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </StackLayout>
+</ContentPage>

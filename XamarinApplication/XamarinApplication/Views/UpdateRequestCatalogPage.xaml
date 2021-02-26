@@ -1,0 +1,342 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:PopupPage
+    x:Class="XamarinApplication.Views.UpdateRequestCatalogPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:animations="clr-namespace:Rg.Plugins.Popup.Animations;assembly=Rg.Plugins.Popup"
+    xmlns:autocomplete="clr-namespace:Syncfusion.SfAutoComplete.XForms;assembly=Syncfusion.SfAutoComplete.XForms"
+    xmlns:converters="clr-namespace:XamarinApplication.Validation"
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:i18n="clr-namespace:XamarinApplication.Helpers"
+    xmlns:inputLayout="clr-namespace:Syncfusion.XForms.TextInputLayout;assembly=Syncfusion.Core.XForms"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+    xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+    Padding="0,5,0,0"
+    BackgroundColor="#00B2CA"
+    mc:Ignorable="d">
+    <pages:PopupPage.Animation>
+        <animations:ScaleAnimation
+            DurationIn="400"
+            DurationOut="300"
+            EasingIn="SinOut"
+            EasingOut="SinIn"
+            HasBackgroundAnimation="True"
+            PositionIn="Center"
+            PositionOut="Center"
+            ScaleIn="1.2"
+            ScaleOut="0.8" />
+    </pages:PopupPage.Animation>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:NotNullOrEmptyStringConverter x:Key="NotNullOrEmptyStringConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ScrollView HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+        <StackLayout
+            Margin="2,8,2,2"
+            HorizontalOptions="Center"
+            VerticalOptions="Center">
+            <StackLayout Margin="0,0,0,0" Orientation="Horizontal">
+                <StackLayout Margin="20,10,20,0" Spacing="15">
+                    <Image
+                        HeightRequest="30"
+                        HorizontalOptions="Start"
+                        Source="closee"
+                        VerticalOptions="Start"
+                        WidthRequest="30">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ClosePopup}" />
+                        </Image.GestureRecognizers>
+                    </Image>
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="24"
+                        Text="{i18n:Translate EditRequestCatalog}"
+                        TextColor="White"
+                        VerticalOptions="CenterAndExpand" />
+                </StackLayout>
+                <Image
+                    HeightRequest="120"
+                    Source="bgImage1"
+                    WidthRequest="170" />
+            </StackLayout>
+            <yummy:PancakeView
+                Margin="0,10,0,0"
+                Padding="30,50,30,30"
+                BackgroundColor="White"
+                CornerRadius="40,40,0,0"
+                VerticalOptions="FillAndExpand">
+                <StackLayout Spacing="20">
+                    <inputLayout:SfTextInputLayout
+                        ContainerBackgroundColor="#E6EEF9"
+                        ContainerType="Outlined"
+                        FocusedColor="#0450C2"
+                        Hint="{i18n:Translate Code}"
+                        OutlineCornerRadius="20"
+                        UnfocusedColor="#28BAAE">
+                        <Entry
+                            x:Name="CodeEntry"
+                            Text="{Binding RequestCatalog.code}"
+                            TextColor="Black"
+                            WidthRequest="210" />
+                    </inputLayout:SfTextInputLayout>
+                    <Label
+                        Margin="0,-15,0,0"
+                        FontSize="Small"
+                        HorizontalTextAlignment="Center"
+                        IsVisible="False"
+                        Text="Code is Required"
+                        TextColor="OrangeRed"
+                        WidthRequest="210">
+                        <Label.Triggers>
+                            <MultiTrigger TargetType="Label">
+                                <MultiTrigger.Conditions>
+                                    <BindingCondition Binding="{Binding Source={x:Reference CodeEntry}, Path=Text, Converter={StaticResource NotNullOrEmptyStringConverter}}" Value="False" />
+                                </MultiTrigger.Conditions>
+                                <Setter Property="IsVisible" Value="{Binding Value}" />
+                            </MultiTrigger>
+                        </Label.Triggers>
+                    </Label>
+                    <inputLayout:SfTextInputLayout
+                        Margin="0,-15,0,0"
+                        ContainerBackgroundColor="#E6EEF9"
+                        ContainerType="Outlined"
+                        FocusedColor="#0450C2"
+                        Hint="{i18n:Translate Description}"
+                        OutlineCornerRadius="20"
+                        UnfocusedColor="#28BAAE">
+                        <Entry
+                            x:Name="DescriptionEntry"
+                            Text="{Binding RequestCatalog.description}"
+                            TextColor="Black"
+                            WidthRequest="210" />
+                    </inputLayout:SfTextInputLayout>
+                    <Label
+                        Margin="0,-15,0,0"
+                        FontSize="Small"
+                        HorizontalTextAlignment="Center"
+                        IsVisible="False"
+                        Text="Description is Required"
+                        TextColor="OrangeRed"
+                        WidthRequest="210">
+                        <Label.Triggers>
+                            <MultiTrigger TargetType="Label">
+                                <MultiTrigger.Conditions>
+                                    <BindingCondition Binding="{Binding Source={x:Reference DescriptionEntry}, Path=Text, Converter={StaticResource NotNullOrEmptyStringConverter}}" Value="False" />
+                                </MultiTrigger.Conditions>
+                                <Setter Property="IsVisible" Value="{Binding Value}" />
+                            </MultiTrigger>
+                        </Label.Triggers>
+                    </Label>
+                    <inputLayout:SfTextInputLayout
+                        Margin="0,-15,0,0"
+                        ContainerBackgroundColor="#E6EEF9"
+                        ContainerType="Outlined"
+                        FocusedColor="#0450C2"
+                        Hint="{i18n:Translate BranchExam}"
+                        OutlineCornerRadius="20"
+                        UnfocusedColor="#28BAAE">
+                        <autocomplete:SfAutoComplete
+                            x:Name="BranchEntry"
+                            BorderColor="Blue"
+                            DataSource="{Binding BranchAutoComplete}"
+                            DisplayMemberPath="name"
+                            HeightRequest="50"
+                            HorizontalOptions="CenterAndExpand"
+                            NoResultsFoundFontAttributes="Bold"
+                            NoResultsFoundFontSize="16"
+                            NoResultsFoundText="No Results Found"
+                            NoResultsFoundTextColor="DarkGreen"
+                            SelectedItem="{Binding RequestCatalog.branch}"
+                            SuggestionMode="Contains"
+                            TextColor="Black"
+                            VerticalOptions="CenterAndExpand"
+                            WidthRequest="210" />
+                    </inputLayout:SfTextInputLayout>
+                    <Label
+                        Margin="0,-15,0,0"
+                        FontSize="Small"
+                        HorizontalTextAlignment="Center"
+                        IsVisible="False"
+                        Text="Branch is Required"
+                        TextColor="OrangeRed"
+                        WidthRequest="210">
+                        <Label.Triggers>
+                            <MultiTrigger TargetType="Label">
+                                <MultiTrigger.Conditions>
+                                    <BindingCondition Binding="{Binding Source={x:Reference BranchEntry}, Path=Text, Converter={StaticResource NotNullOrEmptyStringConverter}}" Value="False" />
+                                </MultiTrigger.Conditions>
+                                <Setter Property="IsVisible" Value="{Binding Value}" />
+                            </MultiTrigger>
+                        </Label.Triggers>
+                    </Label>
+                    <inputLayout:SfTextInputLayout
+                        Margin="0,-15,0,0"
+                        ContainerBackgroundColor="#E6EEF9"
+                        ContainerType="Outlined"
+                        FocusedColor="#0450C2"
+                        Hint="{i18n:Translate Topografic}"
+                        OutlineCornerRadius="20"
+                        UnfocusedColor="#28BAAE"
+                        WidthRequest="250">
+                        <autocomplete:SfAutoComplete
+                            x:Name="ICDOEntry"
+                            BorderColor="Blue"
+                            DataSource="{Binding ICDOAutoComplete}"
+                            DisplayMemberPath="description"
+                            HeightRequest="50"
+                            HorizontalOptions="CenterAndExpand"
+                            NoResultsFoundFontAttributes="Bold"
+                            NoResultsFoundFontSize="16"
+                            NoResultsFoundText="{i18n:Translate NoResultsFound}"
+                            NoResultsFoundTextColor="DarkGreen"
+                            SelectedItem="{Binding RequestCatalog.icdo}"
+                            SuggestionMode="Contains"
+                            TextColor="Black"
+                            VerticalOptions="CenterAndExpand"
+                            WidthRequest="210" />
+                    </inputLayout:SfTextInputLayout>
+                    <Label
+                        Margin="0,-15,0,0"
+                        FontSize="Small"
+                        HorizontalTextAlignment="Center"
+                        IsVisible="False"
+                        Text="ICDO is Required"
+                        TextColor="OrangeRed"
+                        WidthRequest="210">
+                        <Label.Triggers>
+                            <MultiTrigger TargetType="Label">
+                                <MultiTrigger.Conditions>
+                                    <BindingCondition Binding="{Binding Source={x:Reference ICDOEntry}, Path=Text, Converter={StaticResource NotNullOrEmptyStringConverter}}" Value="False" />
+                                </MultiTrigger.Conditions>
+                                <Setter Property="IsVisible" Value="{Binding Value}" />
+                            </MultiTrigger>
+                        </Label.Triggers>
+                    </Label>
+                    <inputLayout:SfTextInputLayout
+                        Margin="0,-15,0,0"
+                        ContainerBackgroundColor="#E6EEF9"
+                        ContainerType="Outlined"
+                        FocusedColor="#0450C2"
+                        Hint="{i18n:Translate Intervention}"
+                        OutlineCornerRadius="20"
+                        UnfocusedColor="#28BAAE"
+                        WidthRequest="250">
+                        <autocomplete:SfAutoComplete
+                            x:Name="InterventionEntry"
+                            BorderColor="Blue"
+                            DataSource="{Binding SIAPECAutoComplete}"
+                            DisplayMemberPath="description"
+                            HeightRequest="50"
+                            HorizontalOptions="CenterAndExpand"
+                            NoResultsFoundFontAttributes="Bold"
+                            NoResultsFoundFontSize="16"
+                            NoResultsFoundText="{i18n:Translate NoResultsFound}"
+                            NoResultsFoundTextColor="DarkGreen"
+                            SelectedItem="{Binding RequestCatalog.siapec}"
+                            SuggestionMode="Contains"
+                            TextColor="Black"
+                            VerticalOptions="CenterAndExpand"
+                            WidthRequest="210" />
+                    </inputLayout:SfTextInputLayout>
+                    <Label
+                        Margin="0,-15,0,0"
+                        FontSize="Small"
+                        HorizontalTextAlignment="Center"
+                        IsVisible="False"
+                        Text="Intervention is Required"
+                        TextColor="OrangeRed"
+                        WidthRequest="210">
+                        <Label.Triggers>
+                            <MultiTrigger TargetType="Label">
+                                <MultiTrigger.Conditions>
+                                    <BindingCondition Binding="{Binding Source={x:Reference InterventionEntry}, Path=Text, Converter={StaticResource NotNullOrEmptyStringConverter}}" Value="False" />
+                                </MultiTrigger.Conditions>
+                                <Setter Property="IsVisible" Value="{Binding Value}" />
+                            </MultiTrigger>
+                        </Label.Triggers>
+                    </Label>
+                    <inputLayout:SfTextInputLayout
+                        Margin="0,-15,0,0"
+                        ContainerBackgroundColor="#E6EEF9"
+                        ContainerType="Outlined"
+                        FocusedColor="#0450C2"
+                        Hint="{i18n:Translate Procedure}"
+                        OutlineCornerRadius="20"
+                        UnfocusedColor="#28BAAE">
+                        <autocomplete:SfAutoComplete
+                            x:Name="ProcedureEntry"
+                            BorderColor="Blue"
+                            DataSource="{Binding NomenclaturAutoComplete}"
+                            DisplayMemberPath="descrEsameProf"
+                            HeightRequest="50"
+                            HorizontalOptions="CenterAndExpand"
+                            NoResultsFoundFontAttributes="Bold"
+                            NoResultsFoundFontSize="16"
+                            NoResultsFoundText="{i18n:Translate NoResultsFound}"
+                            NoResultsFoundTextColor="DarkGreen"
+                            SelectedItem="{Binding RequestCatalog.nomenclatura}"
+                            SuggestionMode="Contains"
+                            TextColor="Black"
+                            VerticalOptions="CenterAndExpand"
+                            WidthRequest="210" />
+                    </inputLayout:SfTextInputLayout>
+                    <Label
+                        Margin="0,-15,0,0"
+                        FontSize="Small"
+                        HorizontalTextAlignment="Center"
+                        IsVisible="False"
+                        Text="Procedure is Required"
+                        TextColor="OrangeRed"
+                        WidthRequest="210">
+                        <Label.Triggers>
+                            <MultiTrigger TargetType="Label">
+                                <MultiTrigger.Conditions>
+                                    <BindingCondition Binding="{Binding Source={x:Reference ProcedureEntry}, Path=Text, Converter={StaticResource NotNullOrEmptyStringConverter}}" Value="False" />
+                                </MultiTrigger.Conditions>
+                                <Setter Property="IsVisible" Value="{Binding Value}" />
+                            </MultiTrigger>
+                        </Label.Triggers>
+                    </Label>
+                    <StackLayout Orientation="Horizontal">
+                        <Label
+                            FontAttributes="Bold"
+                            Text="{i18n:Translate Valid}"
+                            TextColor="#28BAAE" />
+                        <CheckBox IsChecked="{Binding RequestCatalog.valid, Mode=TwoWay}" Color="#28BAAE" />
+                    </StackLayout>
+                    <yummy:PancakeView
+                        BackgroundColor="#00B2CA"
+                        BorderThickness="1"
+                        CornerRadius="25"
+                        Elevation="3"
+                        HeightRequest="50"
+                        HorizontalOptions="CenterAndExpand"
+                        WidthRequest="150">
+                        <Button
+                            BackgroundColor="Transparent"
+                            Command="{Binding UpdateRequestCatatog}"
+                            HorizontalOptions="Center"
+                            Text="{i18n:Translate Update}"
+                            TextColor="White">
+                            <Button.Triggers>
+                                <MultiTrigger TargetType="Button">
+                                    <MultiTrigger.Conditions>
+                                        <BindingCondition Binding="{Binding Source={x:Reference CodeEntry}, Path=Text, Converter={StaticResource NotNullOrEmptyStringConverter}}" Value="True" />
+                                        <BindingCondition Binding="{Binding Source={x:Reference DescriptionEntry}, Path=Text, Converter={StaticResource NotNullOrEmptyStringConverter}}" Value="True" />
+                                        <BindingCondition Binding="{Binding Source={x:Reference BranchEntry}, Path=Text, Converter={StaticResource NotNullOrEmptyStringConverter}}" Value="True" />
+                                        <BindingCondition Binding="{Binding Source={x:Reference ICDOEntry}, Path=Text, Converter={StaticResource NotNullOrEmptyStringConverter}}" Value="True" />
+                                        <BindingCondition Binding="{Binding Source={x:Reference InterventionEntry}, Path=Text, Converter={StaticResource NotNullOrEmptyStringConverter}}" Value="True" />
+                                        <BindingCondition Binding="{Binding Source={x:Reference ProcedureEntry}, Path=Text, Converter={StaticResource NotNullOrEmptyStringConverter}}" Value="True" />
+                                    </MultiTrigger.Conditions>
+                                    <Setter Property="IsEnabled" Value="{Binding IsEnabled, Mode=TwoWay}" />
+                                </MultiTrigger>
+                            </Button.Triggers>
+                        </Button>
+                    </yummy:PancakeView>
+                </StackLayout>
+            </yummy:PancakeView>
+        </StackLayout>
+    </ScrollView>
+</pages:PopupPage>

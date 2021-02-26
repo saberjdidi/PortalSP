@@ -1,0 +1,253 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="XamarinApplication.Views.BranchPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converter="clr-namespace:XamarinApplication.Converters"
+    xmlns:custom="clr-namespace:XamarinApplication"
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:i18n="clr-namespace:XamarinApplication.Helpers"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+    Title="{i18n:Translate Branch}"
+    Padding="0,10,0,0"
+    BackgroundColor="White"
+    mc:Ignorable="d">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+            Command="{Binding OpenSearchBar}"
+            IconImageSource="ic_search_white_24dp"
+            Text="{Binding ShowHide}" />
+        <ToolbarItem Clicked="New_Branch" IconImageSource="add" />
+    </ContentPage.ToolbarItems>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converter:ByteArrayToImageValueConverter x:Key="ByteArrayToImageValueConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <StackLayout Padding="5">
+        <yummy:PancakeView
+            Margin="20,0,20,-20"
+            Padding="10,0,0,0"
+            BackgroundColor="#EAEAEA"
+            BorderThickness="1"
+            CornerRadius="25"
+            HeightRequest="50"
+            IsVisible="{Binding ShowHide}"
+            VerticalOptions="EndAndExpand">
+            <StackLayout Orientation="Horizontal">
+                <SearchBar
+                    FontSize="18"
+                    HorizontalOptions="FillAndExpand"
+                    IsVisible="{Binding ShowHide}"
+                    Placeholder="{i18n:Translate Search}"
+                    PlaceholderColor="#99A1B3"
+                    SearchCommand="{Binding SearchCommand}"
+                    Text="{Binding Filter, Mode=TwoWay}"
+                    TextColor="#484848" />
+            </StackLayout>
+        </yummy:PancakeView>
+        <yummy:PancakeView
+            Margin="0,30,0,0"
+            Padding="30,0,30,30"
+            BackgroundColor="#EAEAEA"
+            CornerRadius="40,40,0,0"
+            VerticalOptions="FillAndExpand">
+            <StackLayout>
+                <Label
+                    FontSize="24"
+                    HorizontalOptions="FillAndExpand"
+                    HorizontalTextAlignment="Center"
+                    IsVisible="{Binding IsVisibleStatus}"
+                    Text="{i18n:Translate NoResult}"
+                    TextColor="Black"
+                    VerticalOptions="FillAndExpand"
+                    VerticalTextAlignment="Center" />
+                <ListView
+                    HasUnevenRows="true"
+                    IsPullToRefreshEnabled="true"
+                    IsRefreshing="{Binding IsRefreshing, Mode=TwoWay}"
+                    ItemsSource="{Binding Branchs}"
+                    RefreshCommand="{Binding RefreshCommand}"
+                    SeparatorVisibility="None">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <custom:RoundedCornerView
+                                    Margin="3"
+                                    BorderColor="#E0E2DB"
+                                    BorderWidth="1"
+                                    RoundedCornerRadius="20">
+                                    <Grid BackgroundColor="#E0E2DB">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <StackLayout Margin="5" VerticalOptions="Center">
+                                            <StackLayout Orientation="Horizontal">
+
+                                                <yummy:PancakeView
+                                                    Margin="5,5,5,5"
+                                                    BackgroundColor="White"
+                                                    CornerRadius="15,15,15,15"
+                                                    HeightRequest="80"
+                                                    WidthRequest="80">
+                                                    <Image Margin="10,0,0,0" Source="{Binding iconBase64, Converter={StaticResource ByteArrayToImageValueConverter}}" />
+                                                </yummy:PancakeView>
+                                                <StackLayout Padding="4,0,0,0" Orientation="Vertical">
+                                                    <Label
+                                                        FontAttributes="Bold"
+                                                        FontSize="Medium"
+                                                        Text="{Binding branch.code}"
+                                                        TextColor="#1982C4" />
+                                                    <Label
+                                                        FontAttributes="Bold"
+                                                        FontSize="Small"
+                                                        Text="{Binding branch.name}"
+                                                        TextColor="#1d3557" />
+                                                </StackLayout>
+                                            </StackLayout>
+                                        </StackLayout>
+                                    </Grid>
+                                </custom:RoundedCornerView>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+        </yummy:PancakeView>
+    </StackLayout>
+    <!-- <ScrollView HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+        <StackLayout>
+            <Grid Margin="0,0,0,0">
+                <StackLayout Margin="20,0,20,0" Spacing="20">
+                    <Image
+                        HeightRequest="30"
+                        HorizontalOptions="Start"
+                        Source="hamburgerMenu"
+                        VerticalOptions="Start"
+                        WidthRequest="30">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="Open_Menu" />
+                        </Image.GestureRecognizers>
+                    </Image>
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="28"
+                        HorizontalOptions="StartAndExpand"
+                        Text="Branch"
+                        TextColor="White"
+                        VerticalOptions="StartAndExpand"
+                        WidthRequest="100" />
+                </StackLayout>
+                <Image
+                    HeightRequest="90"
+                    HorizontalOptions="EndAndExpand"
+                    Source="bgImage"
+                    WidthRequest="250" />
+                <yummy:PancakeView
+                    Margin="20,0,20,-20"
+                    Padding="10,0,0,0"
+                    BackgroundColor="White"
+                    BorderThickness="1"
+                    CornerRadius="25"
+                    HeightRequest="50"
+                    VerticalOptions="EndAndExpand">
+                    <StackLayout Orientation="Horizontal">
+                        <Image
+                            HeightRequest="25"
+                            HorizontalOptions="Start"
+                            Source="ic_search_white_24dp"
+                            VerticalOptions="CenterAndExpand"
+                            WidthRequest="25" />
+                        <SearchBar
+                            FontSize="18"
+                            HorizontalOptions="FillAndExpand"
+                            Placeholder="Search"
+                            PlaceholderColor="#99A1B3"
+                            SearchCommand="{Binding SearchCommand}"
+                            Text="{Binding Filter, Mode=TwoWay}"
+                            TextColor="#484848" />
+                    </StackLayout>
+                </yummy:PancakeView>
+            </Grid>
+            <yummy:PancakeView
+                Margin="0,30,0,0"
+                Padding="30,0,30,30"
+                BackgroundColor="#EAEAEA"
+                CornerRadius="40,40,0,0"
+                VerticalOptions="FillAndExpand">
+                <StackLayout>
+                    <Label
+                        Margin="20"
+                        FontAttributes="Bold"
+                        FontSize="20"
+                        HorizontalOptions="CenterAndExpand"
+                        HorizontalTextAlignment="Center"
+                        IsVisible="{Binding IsVisibleStatus}"
+                        Text="No Result !"
+                        TextColor="#791AE5"
+                        VerticalOptions="Center"
+                        VerticalTextAlignment="Center" />
+                    <ListView
+                        HasUnevenRows="true"
+                        IsPullToRefreshEnabled="true"
+                        IsRefreshing="{Binding IsRefreshing, Mode=TwoWay}"
+                        ItemsSource="{Binding Branchs}"
+                        RefreshCommand="{Binding RefreshCommand}"
+                        SeparatorVisibility="None">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <Grid
+                                        Margin="5"
+                                        ColumnSpacing="20"
+                                        RowSpacing="30">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <yummy:PancakeView
+                                            Padding="10"
+                                            BackgroundColor="White"
+                                            BorderThickness="1"
+                                            CornerRadius="15"
+                                            Elevation="3">
+                                            <StackLayout>
+                                                <StackLayout Orientation="Horizontal">
+
+                                                    <yummy:PancakeView
+                                                        Margin="5,5,5,5"
+                                                        BackgroundColor="White"
+                                                        CornerRadius="15,15,15,15"
+                                                        HeightRequest="80"
+                                                        WidthRequest="80">
+                                                        <Image Margin="10,0,0,0" Source="{Binding iconBase64, Converter={StaticResource ByteArrayToImageValueConverter}}" />
+                                                    </yummy:PancakeView>
+                                                    <StackLayout Padding="4,0,0,0" Orientation="Vertical">
+                                                        <Label
+                                                            FontAttributes="Bold"
+                                                            FontSize="Medium"
+                                                            Text="{Binding branch.code}"
+                                                            TextColor="#1982C4" />
+                                                        <Label
+                                                            FontAttributes="Bold"
+                                                            FontSize="Small"
+                                                            Text="{Binding branch.name}"
+                                                            TextColor="#1d3557" />
+                                                    </StackLayout>
+                                                </StackLayout>
+                                            </StackLayout>
+                                        </yummy:PancakeView>
+                                    </Grid>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackLayout>
+            </yummy:PancakeView>
+        </StackLayout>
+    </ScrollView>-->
+</ContentPage>

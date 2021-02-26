@@ -1,0 +1,180 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:PopupPage
+    x:Class="XamarinApplication.Views.RequestPatientDetailPopup"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:animations="clr-namespace:Rg.Plugins.Popup.Animations;assembly=Rg.Plugins.Popup"
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:i18n="clr-namespace:XamarinApplication.Helpers"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+    mc:Ignorable="d">
+    <pages:PopupPage.Animation>
+        <animations:ScaleAnimation
+            DurationIn="400"
+            DurationOut="300"
+            EasingIn="SinOut"
+            EasingOut="SinIn"
+            HasBackgroundAnimation="True"
+            PositionIn="Center"
+            PositionOut="Center"
+            ScaleIn="1.2"
+            ScaleOut="0.8" />
+    </pages:PopupPage.Animation>
+    <ScrollView
+        Margin="5,20,5,20"
+        HorizontalOptions="Center"
+        MinimumWidthRequest="220"
+        VerticalOptions="Center">
+        <Frame
+            Margin="1"
+            BackgroundColor="#FDFFFC"
+            BorderColor="#FDFFFC"
+            HasShadow="true">
+            <StackLayout>
+                <StackLayout HorizontalOptions="End" VerticalOptions="End">
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="Close_Popup" />
+                    </StackLayout.GestureRecognizers>
+                    <Image
+                        HeightRequest="45"
+                        Source="close.png"
+                        WidthRequest="45" />
+                </StackLayout>
+                <Label
+                    Margin="5,-20,5,1"
+                    FontAttributes="Bold"
+                    FontSize="Large"
+                    HorizontalOptions="Center"
+                    Text="{i18n:Translate Request}" />
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="18"
+                    HorizontalOptions="CenterAndExpand"
+                    Text="{Binding RequestPatient.code}"
+                    TextColor="Black" />
+                <BoxView BackgroundColor="Gray" HeightRequest="2" />
+                <Frame
+                    Margin="0,1,0,1"
+                    BackgroundColor="#87919E"
+                    BorderColor="#778392"
+                    CornerRadius="5"
+                    HeightRequest="22"
+                    VerticalOptions="Center">
+                    <Label
+                        FontAttributes="Bold"
+                        HorizontalOptions="CenterAndExpand"
+                        Text="{i18n:Translate RequestExam}"
+                        TextColor="White">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding RequestExam}" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                </Frame>
+                <Frame
+                    Margin="0,1,0,1"
+                    BackgroundColor="#87919E"
+                    BorderColor="#778392"
+                    CornerRadius="5"
+                    HeightRequest="22"
+                    VerticalOptions="Center">
+                    <Label
+                        FontAttributes="Bold"
+                        HorizontalOptions="CenterAndExpand"
+                        Text="{i18n:Translate PrintAcceptation}"
+                        TextColor="White">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding PrintAcceptation}" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                </Frame>
+                <Frame
+                    Margin="0,1,0,1"
+                    BackgroundColor="#87919E"
+                    BorderColor="#778392"
+                    CornerRadius="5"
+                    HeightRequest="22"
+                    VerticalOptions="Center">
+                    <Label
+                        FontAttributes="Bold"
+                        HorizontalOptions="CenterAndExpand"
+                        Text="{i18n:Translate NotePatient}"
+                        TextColor="White">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding NotePatient}" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                </Frame>
+                <Frame
+                    Margin="0,1,0,1"
+                    BackgroundColor="#87919E"
+                    BorderColor="#778392"
+                    CornerRadius="5"
+                    HeightRequest="22"
+                    VerticalOptions="Center">
+                    <Label
+                        FontAttributes="Bold"
+                        HorizontalOptions="CenterAndExpand"
+                        Text="{i18n:Translate Report}"
+                        TextColor="White">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding PriliminaryReport}" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                </Frame>
+                <Frame
+                    Margin="0,1,0,1"
+                    BackgroundColor="#87919E"
+                    BorderColor="#778392"
+                    CornerRadius="5"
+                    HeightRequest="22"
+                    VerticalOptions="Center">
+                    <Label
+                        FontAttributes="Bold"
+                        HorizontalOptions="CenterAndExpand"
+                        Text="{i18n:Translate BiologicalMaterials}"
+                        TextColor="White">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding BiologicalMaterials}" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                </Frame>
+                <Frame
+                    Margin="0,1,0,1"
+                    BackgroundColor="#87919E"
+                    BorderColor="#778392"
+                    CornerRadius="5"
+                    HeightRequest="22"
+                    VerticalOptions="Center">
+                    <Label
+                        FontAttributes="Bold"
+                        HorizontalOptions="CenterAndExpand"
+                        Text="{i18n:Translate Attachment}"
+                        TextColor="White">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding AttachmentRequest}" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                </Frame>
+                <Frame
+                    Margin="0,1,0,1"
+                    BackgroundColor="#87919E"
+                    BorderColor="#778392"
+                    CornerRadius="5"
+                    HeightRequest="22"
+                    VerticalOptions="Center">
+                    <Label
+                        FontAttributes="Bold"
+                        HorizontalOptions="CenterAndExpand"
+                        Text="{i18n:Translate Service}"
+                        TextColor="White">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding AmbulatoryRequest}" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                </Frame>
+            </StackLayout>
+
+        </Frame>
+    </ScrollView>
+</pages:PopupPage>

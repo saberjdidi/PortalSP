@@ -1,0 +1,251 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="XamarinApplication.Views.DownloadCSVPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:custom="clr-namespace:XamarinApplication"
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:i18n="clr-namespace:XamarinApplication.Helpers"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModels="clr-namespace:XamarinApplication.ViewModels"
+    Title="{i18n:Translate DownloadCSV}"
+    mc:Ignorable="d">
+    <!--<ContentPage.BindingContext>
+        <viewModels:DownloadCSVViewModel />
+    </ContentPage.BindingContext>-->
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+            Command="{Binding OpenSearchBar}"
+            IconImageSource="ic_search_white_24dp"
+            Text="{Binding ShowHide}" />
+    </ContentPage.ToolbarItems>
+    <!--  <StackLayout Padding="5">
+        <custom:RoundedCornerView BorderWidth="1" RoundedCornerRadius="25">
+            <SearchBar
+                BackgroundColor="#A0CCDA"
+                HeightRequest="46"
+                IsVisible="{Binding ShowHide}"
+                Placeholder="{i18n:Translate Search}"
+                SearchCommand="{Binding SearchCommand}"
+                Text="{Binding Filter, Mode=TwoWay}" />
+        </custom:RoundedCornerView>
+        <Label
+            x:Name="status"
+            FontSize="24"
+            HorizontalOptions="FillAndExpand"
+            HorizontalTextAlignment="Center"
+            IsVisible="{Binding IsVisibleStatus}"
+            Text="{i18n:Translate NoResult}"
+            TextColor="Black"
+            VerticalOptions="FillAndExpand"
+            VerticalTextAlignment="Center" />
+        <ListView
+            HasUnevenRows="true"
+            IsPullToRefreshEnabled="true"
+            IsRefreshing="{Binding IsRefreshing, Mode=TwoWay}"
+            ItemsSource="{Binding Attachments}"
+            RefreshCommand="{Binding RefreshCommand}"
+            SeparatorVisibility="None">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <ViewCell.ContextActions>
+                            <MenuItem
+                                Clicked="Update_InvoiceType"
+                                CommandParameter="{Binding .}"
+                                IconImageSource="edit.png"
+                                Text="Edit" />
+                        </ViewCell.ContextActions>
+                        <custom:RoundedCornerView
+                            Margin="3"
+                            BorderColor="#E0E2DB"
+                            BorderWidth="1"
+                            RoundedCornerRadius="20">
+                            <Grid BackgroundColor="#E0E2DB">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <StackLayout
+                                    Grid.Column="1"
+                                    Margin="5"
+                                    VerticalOptions="Center">
+                                    <StackLayout Orientation="Horizontal">
+
+                                        <StackLayout Orientation="Vertical">
+                                            <Image
+                                                HeightRequest="50"
+                                                Source="download.png"
+                                                WidthRequest="50" />
+                                            <Label
+                                                FontSize="Micro"
+                                                Text="Download"
+                                                TextColor="#BEB7A4" />
+                                        </StackLayout>
+                                        <StackLayout Padding="4,0,0,0" Orientation="Vertical">
+                                            <Label
+                                                FontAttributes="Bold"
+                                                FontSize="Small"
+                                                Text="{Binding name}"
+                                                TextColor="#191716" />
+                                            <Label
+                                                FontAttributes="Bold"
+                                                FontSize="Small"
+                                                Text="{Binding date}"
+                                                TextColor="Red" />
+                                            <Label
+                                                FontAttributes="Bold"
+                                                FontSize="Small"
+                                                Text="{Binding saved}"
+                                                TextColor="#191716" />
+                                        </StackLayout>
+                                    </StackLayout>
+                                </StackLayout>
+                            </Grid>
+                        </custom:RoundedCornerView>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </StackLayout>-->
+    <Grid
+        BackgroundColor="LightGray"
+        HorizontalOptions="FillAndExpand"
+        RowSpacing="0"
+        VerticalOptions="FillAndExpand">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <custom:RoundedCornerView
+            Grid.Row="1"
+            Margin="12,1,12,0"
+            BorderWidth="1"
+            RoundedCornerRadius="25">
+            <SearchBar
+                BackgroundColor="White"
+                HeightRequest="46"
+                IsVisible="{Binding ShowHide}"
+                Placeholder="{i18n:Translate Search}"
+                SearchCommand="{Binding SearchCommand}"
+                Text="{Binding Filter, Mode=TwoWay}" />
+        </custom:RoundedCornerView>
+        <Label
+            Grid.Row="2"
+            FontSize="24"
+            HorizontalOptions="FillAndExpand"
+            HorizontalTextAlignment="Center"
+            IsVisible="{Binding IsVisibleStatus}"
+            Text="{i18n:Translate NoResult}"
+            TextColor="Black"
+            VerticalOptions="FillAndExpand"
+            VerticalTextAlignment="Center" />
+        <RefreshView
+            Grid.Row="2"
+            Command="{Binding RefreshCommand}"
+            IsRefreshing="{Binding IsRefreshing}">
+            <CollectionView
+                Grid.Row="2"
+                Margin="10,3,10,10"
+                HorizontalOptions="FillAndExpand"
+                ItemsSource="{Binding Attachments}"
+                SelectionMode="None"
+                VerticalOptions="FillAndExpand">
+                <CollectionView.Header>
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="18"
+                        Text="{i18n:Translate DownloadCSV}"
+                        TextColor="Black" />
+                </CollectionView.Header>
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout ItemSpacing="20" Orientation="Vertical" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame
+                            Padding="0"
+                            BackgroundColor="Transparent"
+                            HasShadow="True"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="StartAndExpand">
+                            <Grid HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand">
+                                <Expander CollapseAnimationLength="500">
+                                    <Expander.Header>
+                                        <Grid BackgroundColor="White" HorizontalOptions="FillAndExpand">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="3*" />
+                                                <ColumnDefinition Width="1*" />
+                                            </Grid.ColumnDefinitions>
+                                            <BoxView BackgroundColor="#A0A4C9" Opacity="0.2" />
+                                            <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                                                <Label
+                                                    FontAttributes="Bold"
+                                                    FontSize="13"
+                                                    HorizontalOptions="Center"
+                                                    Text="{Binding date, StringFormat='{0:ddd}'}"
+                                                    TextColor="#6670CC" />
+                                                <Label
+                                                    Margin="0,-10,0,0"
+                                                    FontAttributes="Bold"
+                                                    FontSize="26"
+                                                    HorizontalOptions="Center"
+                                                    Text="{Binding date, StringFormat='{0:dd}'}"
+                                                    TextColor="#FF5151" />
+                                            </StackLayout>
+                                            <StackLayout
+                                                Grid.Column="1"
+                                                Margin="20"
+                                                HorizontalOptions="Start"
+                                                VerticalOptions="Center">
+                                                <Label
+                                                    FontSize="15"
+                                                    Text="{Binding name}"
+                                                    TextColor="Black" />
+                                                <Label
+                                                    Margin="0,-5,0,0"
+                                                    FontSize="12"
+                                                    Opacity="0.85"
+                                                    Text="{Binding date}"
+                                                    TextColor="Black" />
+                                                <Label
+                                                    Margin="0,-5,0,0"
+                                                    FontSize="12"
+                                                    Opacity="0.5"
+                                                    Text="{Binding saved}"
+                                                    TextColor="Black" />
+                                            </StackLayout>
+                                            <StackLayout
+                                                Grid.Column="2"
+                                                Orientation="Vertical"
+                                                VerticalOptions="Center">
+                                                <StackLayout.GestureRecognizers>
+                                                    <TapGestureRecognizer CommandParameter="{Binding id}" Tapped="Download_CSV" />
+                                                </StackLayout.GestureRecognizers>
+                                                <Image
+                                                    HeightRequest="50"
+                                                    Source="download.png"
+                                                    WidthRequest="50">
+                                                    <Image.GestureRecognizers>
+                                                        <TapGestureRecognizer CommandParameter="{Binding id}" Tapped="Download_CSV" />
+                                                    </Image.GestureRecognizers>
+                                                </Image>
+                                                <Label
+                                                    FontSize="Micro"
+                                                    Text="Download"
+                                                    TextColor="#6670CC" />
+                                            </StackLayout>
+                                        </Grid>
+                                    </Expander.Header>
+                                </Expander>
+                            </Grid>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+    </Grid>
+</ContentPage>

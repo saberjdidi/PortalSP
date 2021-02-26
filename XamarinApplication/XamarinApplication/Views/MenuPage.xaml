@@ -1,0 +1,297 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="XamarinApplication.Views.MenuPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:custom="clr-namespace:XamarinApplication"
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:eventToCommand="clr-namespace:XamarinApplication.Behavior"
+    xmlns:i18n="clr-namespace:XamarinApplication.Helpers"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <ContentPage.Content Title="master" BackgroundColor="White">
+        <RelativeLayout>
+            <Image
+                Aspect="AspectFill"
+                BackgroundColor="#0E74A0"
+                RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent,
+                                                                       Property=Height}"
+                RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent,
+                                                                      Property=Width}"
+                Source="drawer_back" />
+            <Grid RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height}" RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="22" />
+                    <RowDefinition Height="1" />
+                    <RowDefinition Height="40" />
+                    <RowDefinition Height="40" />
+                    <RowDefinition Height="1" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <StackLayout
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Padding="5"
+                    HeightRequest="140"
+                    Orientation="Vertical">
+                    <Image
+                        HeightRequest="80"
+                        HorizontalOptions="FillAndExpand"
+                        Source="scientist.png"
+                        VerticalOptions="FillAndExpand"
+                        WidthRequest="380" />
+                    <StackLayout
+                        HorizontalOptions="CenterAndExpand"
+                        Orientation="Horizontal"
+                        Spacing="2"
+                        VerticalOptions="Center">
+                        <Label
+                            Margin="10,0,0,0"
+                            FontAttributes="Bold"
+                            FontSize="Large"
+                            Text="{Binding User.firstName}"
+                            TextColor="#252627"
+                            VerticalOptions="Center" />
+                        <Label
+                            Margin="2,0,0,0"
+                            FontAttributes="Bold"
+                            FontSize="Large"
+                            Text="{Binding User.lastName}"
+                            TextColor="#252627"
+                            VerticalOptions="Center" />
+                    </StackLayout>
+                </StackLayout>
+                <Label
+                    x:Name="TimeNow"
+                    Grid.Row="1"
+                    FontSize="Small"
+                    HorizontalOptions="Center"
+                    Scale="3" />
+                <BoxView
+                    Grid.Row="2"
+                    HeightRequest="1"
+                    WidthRequest="100"
+                    Color="#BFC0C0" />
+                <StackLayout
+                    Grid.Row="3"
+                    Grid.Column="0"
+                    Margin="5,8,0,3"
+                    Orientation="Horizontal"
+                    WidthRequest="100">
+
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="Sign_Out" />
+                    </StackLayout.GestureRecognizers>
+                    <Image
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Margin="15,0,0,0"
+                        HeightRequest="65"
+                        Source="ic_menu_logout.png"
+                        VerticalOptions="Center"
+                        WidthRequest="30" />
+                    <Label
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Margin="8,0,0,0"
+                        FontAttributes="Bold"
+                        FontSize="13"
+                        LineBreakMode="TailTruncation"
+                        Text="{i18n:Translate Logout}"
+                        TextColor="#252627"
+                        VerticalOptions="Center" />
+                </StackLayout>
+                <StackLayout
+                    Grid.Row="4"
+                    Orientation="Horizontal"
+                    WidthRequest="100">
+
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="Popup_Language" />
+                    </StackLayout.GestureRecognizers>
+                    <Image
+                        Grid.Column="0"
+                        Margin="20,0,0,0"
+                        HeightRequest="30"
+                        Source="language.png"
+                        VerticalOptions="Center"
+                        WidthRequest="30" />
+                    <Label
+                        Grid.Column="1"
+                        Margin="3,0,0,0"
+                        FontAttributes="Bold"
+                        FontSize="13"
+                        LineBreakMode="TailTruncation"
+                        Text="Language"
+                        TextColor="#252627"
+                        VerticalOptions="Center" />
+                </StackLayout>
+                <BoxView
+                    Grid.Row="5"
+                    HeightRequest="1"
+                    WidthRequest="100"
+                    Color="#BFC0C0" />
+                <Grid Grid.Row="6" Grid.Column="0">
+                    <!-- <syncfusion:SfAccordion x:Name="Accordion" BindableLayout.ItemsSource="{Binding Items}">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate>
+                                    <syncfusion:AccordionItem>
+                                        <syncfusion:AccordionItem.Header>
+                                            <Grid>
+                                                <Label Text="{Binding Name}" />
+                                            </Grid>
+                                        </syncfusion:AccordionItem.Header>
+                                        <syncfusion:AccordionItem.Content>
+                                            <ListView
+                                                Margin="5,8,5,5"
+                                                ItemsSource="{Binding Items}"
+                                                SelectedItem="{Binding SelectedMenu, Mode=TwoWay}"
+                                                SeparatorVisibility="None">
+                                                <ListView.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <custom:CustomViewCell Height="45" SelectedItemBackgroundColor="#BFD7EA">
+                                                            <Grid VerticalOptions="Center">
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="Auto" />
+                                                                    <ColumnDefinition Width="*" />
+                                                                </Grid.ColumnDefinitions>
+                                                                <Grid.RowDefinitions>
+                                                                    <RowDefinition Height="Auto" />
+                                                                </Grid.RowDefinitions>
+                                                                <Image
+                                                                    Grid.Row="0"
+                                                                    Grid.Column="0"
+                                                                    Margin="15,0,0,0"
+                                                                    HeightRequest="30"
+                                                                    Source="{Binding MenuIcon}"
+                                                                    VerticalOptions="Center"
+                                                                    WidthRequest="30" />
+                                                                <Label
+                                                                    Grid.Row="0"
+                                                                    Grid.Column="1"
+                                                                    Margin="10,0,0,0"
+                                                                    FontAttributes="Bold"
+                                                                    LineBreakMode="TailTruncation"
+                                                                    Text="{Binding MenuName}"
+                                                                    TextColor="{Binding Selected, Mode=TwoWay, Converter={StaticResource ColorConverter}}"
+                                                                    VerticalOptions="Center" />
+                                                            </Grid>
+                                                        </custom:CustomViewCell>
+                                                    </DataTemplate>
+                                                </ListView.ItemTemplate>
+                                                <ListView.Behaviors>
+                                                    <eventToCommand:EventToCommandBehavior Command="{Binding MenuItemTapped}" EventName="ItemTapped" />
+                                                </ListView.Behaviors>
+                                            </ListView>
+                                        </syncfusion:AccordionItem.Content>
+                                    </syncfusion:AccordionItem>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </syncfusion:SfAccordion>-->
+
+                    <ListView
+                        Margin="5,8,5,5"
+                        ItemsSource="{Binding MenuItems}"
+                        SelectedItem="{Binding SelectedMenu, Mode=TwoWay}"
+                        SeparatorVisibility="None">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <custom:CustomViewCell Height="45" SelectedItemBackgroundColor="#BFD7EA">
+                                    <Grid VerticalOptions="Center">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+                                        <Image
+                                            Grid.Row="0"
+                                            Grid.Column="0"
+                                            Margin="15,0,0,0"
+                                            HeightRequest="30"
+                                            Source="{Binding MenuIcon}"
+                                            VerticalOptions="Center"
+                                            WidthRequest="30" />
+                                        <Label
+                                            Grid.Row="0"
+                                            Grid.Column="1"
+                                            Margin="10,0,0,0"
+                                            FontAttributes="Bold"
+                                            LineBreakMode="TailTruncation"
+                                            Text="{Binding MenuName}"
+                                            TextColor="{Binding Selected, Mode=TwoWay, Converter={StaticResource ColorConverter}}"
+                                            VerticalOptions="Center" />
+                                    </Grid>
+                                </custom:CustomViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                        <ListView.Behaviors>
+                            <eventToCommand:EventToCommandBehavior Command="{Binding MenuItemTapped}" EventName="ItemTapped" />
+                        </ListView.Behaviors>
+                    </ListView>
+
+                </Grid>
+                <!-- <Grid Grid.Row="7">
+                        <StackLayout Orientation="Horizontal">
+                            <Image
+                                Grid.Column="0"
+                                HeightRequest="30"
+                                HorizontalOptions="End"
+                                Source="more.png"
+                                WidthRequest="30">
+                                <Image.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding OpenAdministrationCommand}" />
+                                </Image.GestureRecognizers>
+                            </Image>
+                            <Label Text="Administration" />
+                        </StackLayout>
+                        <ListView
+                            Margin="5,8,5,5"
+                            IsVisible="{Binding ShowHide}"
+                            ItemsSource="{Binding MenuItems}"
+                            SelectedItem="{Binding SelectedMenu, Mode=TwoWay}"
+                            SeparatorVisibility="None">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <custom:CustomViewCell Height="45" SelectedItemBackgroundColor="#BFD7EA">
+                                        <Grid VerticalOptions="Center">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <Image
+                                                Grid.Row="0"
+                                                Grid.Column="0"
+                                                Margin="15,0,0,0"
+                                                HeightRequest="30"
+                                                Source="{Binding MenuIcon}"
+                                                VerticalOptions="Center"
+                                                WidthRequest="30" />
+                                            <Label
+                                                Grid.Row="0"
+                                                Grid.Column="1"
+                                                Margin="10,0,0,0"
+                                                FontAttributes="Bold"
+                                                LineBreakMode="TailTruncation"
+                                                Text="{Binding MenuName}"
+                                                TextColor="{Binding Selected, Mode=TwoWay, Converter={StaticResource ColorConverter}}"
+                                                VerticalOptions="Center" />
+                                        </Grid>
+                                    </custom:CustomViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                            <ListView.Behaviors>
+                                <eventToCommand:EventToCommandBehavior Command="{Binding MenuItemTapped}" EventName="ItemTapped" />
+                            </ListView.Behaviors>
+                        </ListView>
+                    </Grid>-->
+
+            </Grid>
+        </RelativeLayout>
+    </ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,192 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:PopupPage
+    x:Class="XamarinApplication.Views.RequestPatientPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:animations="clr-namespace:Rg.Plugins.Popup.Animations;assembly=Rg.Plugins.Popup"
+    xmlns:custom="clr-namespace:XamarinApplication"
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:i18n="clr-namespace:XamarinApplication.Helpers"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+    mc:Ignorable="d">
+    <pages:PopupPage.Animation>
+        <animations:ScaleAnimation
+            DurationIn="400"
+            DurationOut="300"
+            EasingIn="SinOut"
+            EasingOut="SinIn"
+            HasBackgroundAnimation="True"
+            PositionIn="Center"
+            PositionOut="Center"
+            ScaleIn="1.2"
+            ScaleOut="0.8" />
+    </pages:PopupPage.Animation>
+    <StackLayout
+        Margin="5,50,5,50"
+        HorizontalOptions="Center"
+        VerticalOptions="Center">
+        <Frame
+            Margin="1"
+            BackgroundColor="#FDFFFC"
+            BorderColor="#FDFFFC"
+            HasShadow="true">
+            <StackLayout>
+                <StackLayout HorizontalOptions="End" VerticalOptions="End">
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="Close_Request" />
+                    </StackLayout.GestureRecognizers>
+                    <Image
+                        HeightRequest="45"
+                        Source="close.png"
+                        WidthRequest="45" />
+                </StackLayout>
+                <Label
+                    Margin="5,-20,5,1"
+                    FontAttributes="Bold"
+                    FontSize="Large"
+                    HorizontalOptions="Center"
+                    Text="{i18n:Translate Requestof}" />
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="18"
+                    HorizontalOptions="CenterAndExpand"
+                    Text="{Binding Patient.fullName}"
+                    TextColor="Black" />
+                <Label
+                    x:Name="label"
+                    Margin="2,20,2,3"
+                    FontSize="26"
+                    HorizontalOptions="FillAndExpand"
+                    HorizontalTextAlignment="Center"
+                    IsVisible="{Binding IsVisible}"
+                    Text="{i18n:Translate NoResult}"
+                    VerticalOptions="FillAndExpand"
+                    VerticalTextAlignment="Center" />
+                <ListView
+                    HasUnevenRows="true"
+                    ItemTapped="Request_Detail"
+                    ItemsSource="{Binding Requests}"
+                    SeparatorColor="Gray"
+                    SeparatorVisibility="Default">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <custom:RoundedCornerView
+                                    Margin="3"
+                                    BorderColor="#00B2CA"
+                                    BorderWidth="1"
+                                    RoundedCornerRadius="5">
+                                    <Grid BackgroundColor="#00B2CA">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="60" />
+                                        </Grid.ColumnDefinitions>
+                                        <StackLayout
+                                            Grid.Column="0"
+                                            Margin="5"
+                                            Padding="20,0,0,0"
+                                            Orientation="Vertical"
+                                            VerticalOptions="Center">
+                                            <Label
+                                                FontAttributes="Bold"
+                                                FontFamily="Arial, Helvetica, sans-serif"
+                                                FontSize="Small"
+                                                Text="{Binding code}"
+                                                TextColor="#FFFFFF" />
+                                            <Label
+                                                FontAttributes="Bold"
+                                                FontFamily="Arial, Helvetica, sans-serif"
+                                                FontSize="Small"
+                                                Text="{Binding creationDate}"
+                                                TextColor="#FFFFFF" />
+                                            <StackLayout Orientation="Horizontal">
+                                                <Label
+                                                    FontAttributes="Bold"
+                                                    FontFamily="Arial, Helvetica, sans-serif"
+                                                    FontSize="18"
+                                                    Text="{Binding patient.firstName}"
+                                                    TextColor="#FFFFFF" />
+                                                <Label
+                                                    FontAttributes="Bold"
+                                                    FontFamily="Arial, Helvetica, sans-serif"
+                                                    FontSize="18"
+                                                    Text="{Binding patient.lastName}"
+                                                    TextColor="#FFFFFF" />
+                                            </StackLayout>
+                                            <Label
+                                                FontAttributes="None"
+                                                FontSize="16"
+                                                Text="{Binding nomenclatura.descrEsameProf}"
+                                                TextColor="#C6DEC6" />
+                                            <!--  <StackLayout>
+                                                <custom:CustomListview
+                                                    HasUnevenRows="true"
+                                                    HeightRequest="50"
+                                                    ItemsSource="{Binding requests}"
+                                                    SeparatorVisibility="None">
+                                                    <ListView.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <ViewCell>
+                                                                <StackLayout Orientation="Vertical">
+                                                                    <Label
+                                                                        FontAttributes="Bold"
+                                                                        FontFamily="Arial, Helvetica, sans-serif"
+                                                                        FontSize="Small"
+                                                                        Text="{Binding code}"
+                                                                        TextColor="#FFFFFF" />
+                                                                    <Label
+                                                                        FontAttributes="Bold"
+                                                                        FontFamily="Arial, Helvetica, sans-serif"
+                                                                        FontSize="Small"
+                                                                        Text="{Binding creationDate}"
+                                                                        TextColor="#FFFFFF" />
+                                                                </StackLayout>
+                                                            </ViewCell>
+                                                        </DataTemplate>
+                                                    </ListView.ItemTemplate>
+                                                </custom:CustomListview>
+                                            </StackLayout>-->
+                                        </StackLayout>
+                                        <StackLayout
+                                            Grid.Column="1"
+                                            HorizontalOptions="Center"
+                                            Orientation="Vertical"
+                                            VerticalOptions="Center">
+                                            <Image
+                                                HeightRequest="50"
+                                                Source="moreVertical.png"
+                                                WidthRequest="50">
+                                                <Image.GestureRecognizers>
+                                                    <!--<TapGestureRecognizer Command="{Binding DownloadPreliminaryReport}" />-->
+                                                    <TapGestureRecognizer CommandParameter="{Binding id}" Tapped="Popup_Details" />
+                                                </Image.GestureRecognizers>
+                                            </Image>
+                                            <!-- <Image
+                                                HeightRequest="20"
+                                                Source="pdf.png"
+                                                WidthRequest="20">
+                                                <Image.GestureRecognizers>
+                                                    <TapGestureRecognizer CommandParameter="{Binding id}" Tapped="download_pdf" />
+                                                </Image.GestureRecognizers>
+                                            </Image>
+                                            <Image
+                                                HeightRequest="50"
+                                                Source="download.png"
+                                                WidthRequest="50">
+                                                <Image.GestureRecognizers>
+                                                    <TapGestureRecognizer CommandParameter="{Binding id}" Tapped="Print_Acceptation" />
+                                                </Image.GestureRecognizers>
+                                            </Image>-->
+                                        </StackLayout>
+                                    </Grid>
+                                </custom:RoundedCornerView>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+
+        </Frame>
+    </StackLayout>
+</pages:PopupPage>
